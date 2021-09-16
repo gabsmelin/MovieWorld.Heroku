@@ -1,6 +1,6 @@
 import initdb from './models/init-models.js'
-import Sequelize from 'sequelize';
 
+import Sequelize from 'sequelize';
 const sequelize = new Sequelize(
     'tcc_mw',
     'root',
