@@ -16,7 +16,7 @@ app.get('/filme', async(req, resp) => {
     }
 })
 
-app.post('/post', async(req, resp) => {
+app.post('/filme', async(req, resp) => {
     try {
         let { nome, genero, lancamento, diretor, sinopse, avaliacao, descricao, plataforma, img_maior, img_menor } = req.body;
         
@@ -32,11 +32,125 @@ app.post('/post', async(req, resp) => {
             img_capa_maior: img_maior,
             img_capa_menor: img_menor
         })
-        resp.sendStatus(200)
+        resp.send("Filme inserido!");
     } catch(e) {
         resp.send({erro: e.toString()})
     }
 })
+
+
+app.put('/filme/:id', async(req, resp) => {
+    try {
+        let { nome, genero, lancamento, diretor, sinopse, avaliacao, descricao, plataforma, img_maior, img_menor } = req.body;
+        let { id } = req.params;
+
+        let a = await db.tb_filme.update({
+            nm_filme: nome,
+            ds_genero: genero,
+            dt_lancamento: lancamento,
+            nm_diretor: diretor, 
+            ds_sinopse: sinopse,
+            ds_avaliacao: avaliacao,
+            ds_descricao: descricao,
+            ds_plataforma: plataforma,
+            img_capa_maior: img_maior,
+            img_capa_menor: img_menor
+        },
+        {
+            where: {id_filme: id}
+        })
+        resp.sendStatus("Filme alterado!");
+    } catch(e) {
+        resp.send({erro: e.toString()})
+    }
+})
+
+
+app.delete('/filme/:id', async(req, resp) => {
+    try {
+        let { id } = req.params;
+        let d = db.tb_filme.destroy({ where: {id_filme: id}})
+        resp.send("Filme removido!");
+    } catch(e) {
+        resp.send({ erro: e.toString()});
+    }
+})
+
+
+//
+
+
+app.get('/usuario', async(req, resp) => {
+    try {
+        let a = await db.tb_usuario.findAll();
+        resp.send(a);
+    } catch(e) {
+        resp.send({erro: e.toString()})
+    }
+})
+
+app.post('/usuario', async(req, resp) => {
+    try {
+        let { nome, sobrenome, username, email, senha, genero, localizacao, redes, fotoperfil} = req.body;
+        
+        let i = await db.tb_usuario.create({
+            nm_usuario: nome,
+            nm_sobrenome: sobrenome,
+            nm_username: username,
+            ds_email: email,
+            ds_senha: senha,
+            ds_genero: genero,
+            ds_nascimento: new Date(),
+            ds_localizacao: localizacao,
+            ds_redes_sociais: redes,
+            ds_foto: fotoperfil
+        })
+        resp.send("Usuário inserido!");
+    } catch(e) {
+        resp.send({erro: e.toString()})
+    }
+})
+
+
+app.put('/usuario/:id', async(req, resp) => {
+    try {
+        let { nome, sobrenome, username, email, senha, genero, nascimento, localizacao, redes, fotoperfil } = req.body;
+        let { id } = req.params;
+
+        let a = await db.tb_usuario.update({
+            nm_usuario: nome,
+            nm_sobrenome: sobrenome,
+            nm_username: username,
+            ds_email: email,
+            ds_senha: senha,
+            ds_genero: genero,
+            ds_nascimento: nascimento,
+            ds_localizacao: localizacao,
+            ds_redes_sociais: redes,
+            ds_foto: fotoperfil
+        },
+        {
+            where: {id_usuario: id}
+        })
+        resp.send("Usuário alterado!");
+    } catch(e) {
+        resp.send({erro: e.toString()})
+    }
+})
+
+
+app.delete('/usuario/:id', async(req, resp) => {
+    try {
+        let { id } = req.params;
+        let d = db.tb_usuario.destroy({ where: {id_usuario: id}})
+        resp.send("Produto removido!");
+    } catch(e) {
+        resp.send({ erro: e.toString()});
+    }
+})
+
+
+
 
 
 app.listen(process.env.PORT,
