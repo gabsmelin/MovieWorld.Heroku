@@ -150,6 +150,59 @@ app.delete('/usuario/:id', async(req, resp) => {
 })
 
 
+app.get('/lista', async(req, resp) => {
+    try {
+        let l = await db.tb_lista.findAll();
+        resp.send(l);
+    } catch(e) {
+        resp.send({ erro: e.toString() })
+    }
+})
+
+app.post('/lista', async(req, resp) => {
+    try {
+        let { nome, descricao } = req.body;
+
+        let i = await db.tb_lista.create({
+            nm_lista: nome, 
+            ds_descricao: descricao
+        })
+        resp.send('Lista criada!')
+    } catch(e) {
+        resp.send({ erro: e.toString() })
+    }
+})
+
+app.put('/lista/:id', async(req, resp) => {
+    try {
+        let { nome, descricao } = req.body;
+        let { id } = req.params;
+
+        let a = await db.tb_lista.update({
+            nm_lista: nome,
+            ds_descricao: descricao
+        },
+        {
+            where: {id_lista: id}
+        })
+        resp.send('Lista alterada!')
+    } catch(e) {
+        resp.send({ erro: e.toString() })
+    }
+})
+
+app.delete('/lista/:id', async(req, resp) => {
+    try {
+        let { id } = req.params;
+
+        let d = await db.tb_lista.destroy({ where: {id_lista: id }})
+        resp.send('Lista removida!')
+    } catch(e) {
+        resp.send({erro: e.toString()})
+    }
+})
+
+
 
 
 
