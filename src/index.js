@@ -203,8 +203,5 @@ app.delete('/lista/:id', async(req, resp) => {
 })
 
 
-
-
-
 app.listen(process.env.PORT,
     x => console.log(`Subiu a api, hehe ${process.env.PORT}`))
