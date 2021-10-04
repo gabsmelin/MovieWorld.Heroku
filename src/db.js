@@ -2,10 +2,10 @@ import initdb from './models/init-models.js'
 
 import Sequelize from 'sequelize';
 const sequelize = new Sequelize(
-    'tcc_mw',
-    'root',
-    '091104fla', {
-        host: 'localhost',
+    'mysql_17753_nsftcc',
+    'nsftcc',
+    'nsf@tcc', {
+        host: 'my01.winhost.com',
         dialect: 'mysql',
         logging: false
 });

@@ -1,30 +1,30 @@
 import _sequelize from 'sequelize';
 const { Model, Sequelize } = _sequelize;
 
-export default class tb_ator extends Model {
+export default class infob_mw_lista extends Model {
   static init(sequelize, DataTypes) {
   super.init({
-    id_ator: {
+    id_lista: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true
     },
-    id_filme: {
+    id_usuario: {
       type: DataTypes.INTEGER,
-      allowNull: true,
-      references: {
-        model: 'tb_filme',
-        key: 'id_filme'
-      }
+      allowNull: true
     },
-    nm_ator: {
+    nm_lista: {
+      type: DataTypes.STRING(255),
+      allowNull: true
+    },
+    ds_descricao: {
       type: DataTypes.STRING(255),
       allowNull: true
     }
   }, {
     sequelize,
-    tableName: 'tb_ator',
+    tableName: 'infob_mw_lista',
     timestamps: false,
     indexes: [
       {
@@ -32,18 +32,18 @@ export default class tb_ator extends Model {
         unique: true,
         using: "BTREE",
         fields: [
-          { name: "id_ator" },
+          { name: "id_lista" },
         ]
       },
       {
-        name: "id_filme",
+        name: "id_usuario",
         using: "BTREE",
         fields: [
-          { name: "id_filme" },
+          { name: "id_usuario" },
         ]
       },
     ]
   });
-  return tb_ator;
+  return infob_mw_lista;
   }
 }

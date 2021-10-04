@@ -1,58 +1,58 @@
 import _sequelize from 'sequelize';
 const { Model, Sequelize } = _sequelize;
 
-export default class tb_usuario extends Model {
+export default class infob_mw_filme extends Model {
   static init(sequelize, DataTypes) {
   super.init({
-    id_usuario: {
+    id_filme: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true
     },
-    nm_usuario: {
+    nm_filme: {
       type: DataTypes.STRING(255),
-      allowNull: true
-    },
-    nm_sobrenome: {
-      type: DataTypes.STRING(255),
-      allowNull: true
-    },
-    nm_username: {
-      type: DataTypes.STRING(255),
-      allowNull: true
-    },
-    ds_email: {
-      type: DataTypes.STRING(255),
-      allowNull: true
-    },
-    ds_senha: {
-      type: DataTypes.STRING(20),
       allowNull: true
     },
     ds_genero: {
-      type: DataTypes.STRING(30),
-      allowNull: true
-    },
-    dt_nascimento: {
-      type: DataTypes.DATEONLY,
-      allowNull: true
-    },
-    ds_localizacao: {
       type: DataTypes.STRING(255),
       allowNull: true
     },
-    ds_redes_sociais: {
+    ano_lancamento: {
       type: DataTypes.STRING(255),
       allowNull: true
     },
-    ds_foto: {
+    nm_diretor: {
       type: DataTypes.STRING(255),
+      allowNull: true
+    },
+    ds_sinopse: {
+      type: DataTypes.STRING(800),
+      allowNull: true
+    },
+    ds_avaliacao: {
+      type: DataTypes.DECIMAL(10,2),
+      allowNull: true
+    },
+    ds_descricao: {
+      type: DataTypes.STRING(800),
+      allowNull: true
+    },
+    ds_plataforma: {
+      type: DataTypes.STRING(500),
+      allowNull: true
+    },
+    img_capa_maior: {
+      type: DataTypes.STRING(1000),
+      allowNull: true
+    },
+    img_capa_menor: {
+      type: DataTypes.STRING(1000),
       allowNull: true
     }
   }, {
     sequelize,
-    tableName: 'tb_usuario',
+    tableName: 'infob_mw_filme',
     timestamps: false,
     indexes: [
       {
@@ -60,11 +60,11 @@ export default class tb_usuario extends Model {
         unique: true,
         using: "BTREE",
         fields: [
-          { name: "id_usuario" },
+          { name: "id_filme" },
         ]
       },
     ]
   });
-  return tb_usuario;
+  return infob_mw_filme;
   }
 }

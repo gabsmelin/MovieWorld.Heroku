@@ -1,16 +1,32 @@
 import _sequelize from 'sequelize';
 const { Model, Sequelize } = _sequelize;
 
-export default class tb_filme extends Model {
+export default class infob_mw_usuario extends Model {
   static init(sequelize, DataTypes) {
   super.init({
-    id_filme: {
+    id_usuario: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true
     },
-    nm_filme: {
+    nm_usuario: {
+      type: DataTypes.STRING(255),
+      allowNull: true
+    },
+    nm_sobrenome: {
+      type: DataTypes.STRING(255),
+      allowNull: true
+    },
+    nm_username: {
+      type: DataTypes.STRING(255),
+      allowNull: true
+    },
+    ds_email: {
+      type: DataTypes.STRING(255),
+      allowNull: true
+    },
+    ds_senha: {
       type: DataTypes.STRING(255),
       allowNull: true
     },
@@ -18,41 +34,25 @@ export default class tb_filme extends Model {
       type: DataTypes.STRING(255),
       allowNull: true
     },
-    dt_lancamento: {
+    dt_nascimento: {
       type: DataTypes.DATEONLY,
       allowNull: true
     },
-    nm_diretor: {
-      type: DataTypes.STRING(255),
-      allowNull: true
-    },
-    ds_sinopse: {
+    ds_localizacao: {
       type: DataTypes.STRING(500),
       allowNull: true
     },
-    ds_avaliacao: {
-      type: DataTypes.DECIMAL(10,2),
-      allowNull: true
-    },
-    ds_descricao: {
+    ds_redes_sociais: {
       type: DataTypes.STRING(500),
       allowNull: true
     },
-    ds_plataforma: {
-      type: DataTypes.STRING(255),
-      allowNull: true
-    },
-    img_capa_maior: {
-      type: DataTypes.STRING(255),
-      allowNull: true
-    },
-    img_capa_menor: {
-      type: DataTypes.STRING(255),
+    ds_foto: {
+      type: DataTypes.STRING(1000),
       allowNull: true
     }
   }, {
     sequelize,
-    tableName: 'tb_filme',
+    tableName: 'infob_mw_usuario',
     timestamps: false,
     indexes: [
       {
@@ -60,11 +60,11 @@ export default class tb_filme extends Model {
         unique: true,
         using: "BTREE",
         fields: [
-          { name: "id_filme" },
+          { name: "id_usuario" },
         ]
       },
     ]
   });
-  return tb_filme;
+  return infob_mw_usuario;
   }
 }

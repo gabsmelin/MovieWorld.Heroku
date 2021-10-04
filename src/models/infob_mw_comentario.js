@@ -1,7 +1,7 @@
 import _sequelize from 'sequelize';
 const { Model, Sequelize } = _sequelize;
 
-export default class tb_comentario extends Model {
+export default class infob_mw_comentario extends Model {
   static init(sequelize, DataTypes) {
   super.init({
     id_cometario: {
@@ -12,19 +12,11 @@ export default class tb_comentario extends Model {
     },
     id_filme: {
       type: DataTypes.INTEGER,
-      allowNull: true,
-      references: {
-        model: 'tb_filme',
-        key: 'id_filme'
-      }
+      allowNull: true
     },
     id_usuario: {
       type: DataTypes.INTEGER,
-      allowNull: true,
-      references: {
-        model: 'tb_usuario',
-        key: 'id_usuario'
-      }
+      allowNull: true
     },
     ds_mensagem: {
       type: DataTypes.STRING(300),
@@ -40,7 +32,7 @@ export default class tb_comentario extends Model {
     }
   }, {
     sequelize,
-    tableName: 'tb_comentario',
+    tableName: 'infob_mw_comentario',
     timestamps: false,
     indexes: [
       {
@@ -67,6 +59,6 @@ export default class tb_comentario extends Model {
       },
     ]
   });
-  return tb_comentario;
+  return infob_mw_comentario;
   }
 }

@@ -9,7 +9,7 @@ app.use(express.json());
 
 app.get('/filme', async(req, resp) => {
     try {
-        let a = await db.tb_filme.findAll();
+        let a = await db.infob_mw_filme.findAll();
         resp.send(a);
     } catch(e) {
         resp.send({erro: e.toString()})
@@ -20,7 +20,7 @@ app.post('/filme', async(req, resp) => {
     try {
         let { nome, genero, lancamento, diretor, sinopse, avaliacao, descricao, plataforma, img_maior, img_menor } = req.body;
         
-        let i = await db.tb_filme.create({
+        let i = await db.infob_mw_filme.create({
             nm_filme: nome,
             ds_genero: genero,
             dt_lancamento: lancamento,
@@ -44,7 +44,7 @@ app.put('/filme/:id', async(req, resp) => {
         let { nome, genero, lancamento, diretor, sinopse, avaliacao, descricao, plataforma, img_maior, img_menor } = req.body;
         let { id } = req.params;
 
-        let a = await db.tb_filme.update({
+        let a = await db.infob_mw_filme.update({
             nm_filme: nome,
             ds_genero: genero,
             dt_lancamento: lancamento,
@@ -69,7 +69,7 @@ app.put('/filme/:id', async(req, resp) => {
 app.delete('/filme/:id', async(req, resp) => {
     try {
         let { id } = req.params;
-        let d = db.tb_filme.destroy({ where: {id_filme: id}})
+        let d = db.infob_mw_filme.destroy({ where: {id_filme: id}})
         resp.send("Filme removido!");
     } catch(e) {
         resp.send({ erro: e.toString()});
@@ -82,7 +82,7 @@ app.delete('/filme/:id', async(req, resp) => {
 
 app.get('/usuario', async(req, resp) => {
     try {
-        let a = await db.tb_usuario.findAll();
+        let a = await db.infob_mw_usuario.findAll();
         resp.send(a);
     } catch(e) {
         resp.send({erro: e.toString()})
@@ -91,9 +91,9 @@ app.get('/usuario', async(req, resp) => {
 
 app.post('/usuario', async(req, resp) => {
     try {
-        let { nome, sobrenome, username, email, senha, genero, localizacao, redes, fotoperfil} = req.body;
+        let { nome, sobrenome, username, email, senha, genero, localizacao, redes, fotoperfil } = req.body;
         
-        let i = await db.tb_usuario.create({
+        let i = await db.infob_mw_usuario.create({
             nm_usuario: nome,
             nm_sobrenome: sobrenome,
             nm_username: username,
@@ -117,7 +117,7 @@ app.put('/usuario/:id', async(req, resp) => {
         let { nome, sobrenome, username, email, senha, genero, nascimento, localizacao, redes, fotoperfil } = req.body;
         let { id } = req.params;
 
-        let a = await db.tb_usuario.update({
+        let a = await db.infob_mw_usuario.update({
             nm_usuario: nome,
             nm_sobrenome: sobrenome,
             nm_username: username,
@@ -142,17 +142,18 @@ app.put('/usuario/:id', async(req, resp) => {
 app.delete('/usuario/:id', async(req, resp) => {
     try {
         let { id } = req.params;
-        let d = db.tb_usuario.destroy({ where: {id_usuario: id}})
+        let d = db.infob_mw_usuario.destroy({ where: {id_usuario: id}})
         resp.send("Produto removido!");
     } catch(e) {
         resp.send({ erro: e.toString()});
     }
 })
 
+//
 
 app.get('/lista', async(req, resp) => {
     try {
-        let l = await db.tb_lista.findAll();
+        let l = await db.infob_mw_usuario.findAll();
         resp.send(l);
     } catch(e) {
         resp.send({ erro: e.toString() })
@@ -163,7 +164,7 @@ app.post('/lista', async(req, resp) => {
     try {
         let { nome, descricao } = req.body;
 
-        let i = await db.tb_lista.create({
+        let i = await db.infob_mw_usuario.create({
             nm_lista: nome, 
             ds_descricao: descricao
         })
@@ -178,7 +179,7 @@ app.put('/lista/:id', async(req, resp) => {
         let { nome, descricao } = req.body;
         let { id } = req.params;
 
-        let a = await db.tb_lista.update({
+        let a = await db.infob_mw_usuario.update({
             nm_lista: nome,
             ds_descricao: descricao
         },
@@ -195,7 +196,7 @@ app.delete('/lista/:id', async(req, resp) => {
     try {
         let { id } = req.params;
 
-        let d = await db.tb_lista.destroy({ where: {id_lista: id }})
+        let d = await db.infob_mw_usuario.destroy({ where: {id_lista: id }})
         resp.send('Lista removida!')
     } catch(e) {
         resp.send({erro: e.toString()})

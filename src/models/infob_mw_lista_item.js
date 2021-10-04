@@ -1,38 +1,26 @@
 import _sequelize from 'sequelize';
 const { Model, Sequelize } = _sequelize;
 
-export default class tb_filme_usu extends Model {
+export default class infob_mw_lista_item extends Model {
   static init(sequelize, DataTypes) {
   super.init({
-    id_filme_usu: {
+    id_lista_item: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true
     },
+    id_lista: {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    },
     id_filme: {
       type: DataTypes.INTEGER,
-      allowNull: true,
-      references: {
-        model: 'tb_filme',
-        key: 'id_filme'
-      }
-    },
-    id_usuario: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-      references: {
-        model: 'tb_usuario',
-        key: 'id_usuario'
-      }
-    },
-    nm_categoria: {
-      type: DataTypes.STRING(255),
       allowNull: true
     }
   }, {
     sequelize,
-    tableName: 'tb_filme_usu',
+    tableName: 'infob_mw_lista_item',
     timestamps: false,
     indexes: [
       {
@@ -40,7 +28,14 @@ export default class tb_filme_usu extends Model {
         unique: true,
         using: "BTREE",
         fields: [
-          { name: "id_filme_usu" },
+          { name: "id_lista_item" },
+        ]
+      },
+      {
+        name: "id_lista",
+        using: "BTREE",
+        fields: [
+          { name: "id_lista" },
         ]
       },
       {
@@ -50,15 +45,8 @@ export default class tb_filme_usu extends Model {
           { name: "id_filme" },
         ]
       },
-      {
-        name: "id_usuario",
-        using: "BTREE",
-        fields: [
-          { name: "id_usuario" },
-        ]
-      },
     ]
   });
-  return tb_filme_usu;
+  return infob_mw_lista_item;
   }
 }
