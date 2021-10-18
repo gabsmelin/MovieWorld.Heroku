@@ -16,10 +16,12 @@ app.get('/filme', async(req, resp) => {
     }
 })
 
+
+
 app.post('/filme', async(req, resp) => {
     try {
         let { nome, genero, lancamento, diretor, sinopse, avaliacao, descricao, plataforma, img_maior, img_menor } = req.body;
-        
+    
         let i = await db.infob_mw_filme.create({
             nm_filme: nome,
             ds_genero: genero,
