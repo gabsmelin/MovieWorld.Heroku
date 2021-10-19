@@ -248,13 +248,13 @@ app.get('/comentario', async(req, resp) => {
 
 app.post('/comentario', async(req, resp) => {
     try {
-        let { filme, usuario, mensagem, data, curtidas } = req.body;
+        let { filme, usuario, mensagem, curtidas } = req.body;
         
         let i = await db.infob_mw_comentario.create({
             id_filme: filme,
             id_usuario: usuario,
             ds_mensagem: mensagem,
-            dt_comentario: data,
+            dt_comentario: new Date,
             ds_curtidas: curtidas
         })
         resp.send("Comentario inserido!");
@@ -266,14 +266,13 @@ app.post('/comentario', async(req, resp) => {
 
 app.put('/comentario/:id', async(req, resp) => {
     try {
-        let { filme, usuario, mensagem, data, curtidas } = req.body;
+        let { filme, usuario, mensagem,curtidas } = req.body;
         let { id } = req.params;
 
         let a = await db.infob_mw_comentario.update({
             id_filme: filme,
             id_usuario: usuario,
             ds_mensagem: mensagem,
-            dt_comentario: data,
             ds_curtidas: curtidas
         },
         {
@@ -289,6 +288,7 @@ app.put('/comentario/:id', async(req, resp) => {
 
 
 
+
 app.delete('/comentario/:id', async(req, resp) => {
     try {
         let { id } = req.params;
@@ -296,6 +296,38 @@ app.delete('/comentario/:id', async(req, resp) => {
         resp.send("Comentario removido!");
     } catch(e) {
         resp.send({ erro: e.toString()});
+    }
+})
+
+
+
+app.get('/lista_popular', async(req, resp) => {
+    try {
+        let c = await db.infob_mw_lista.findAll();
+        resp.send(c);
+    } catch(e) {
+        resp.send({ erro: e.toString() })
+    }
+})
+
+
+
+
+app.put('/lista_popular/:id', async(req, resp) => {
+    try {
+        let { nome_lista, descricao } = req.body;
+        let { id } = req.params;
+
+        let a = await db.infob_mw_comentario.update({
+            nm_lista: nome_lista,
+            ds_descricao: descricao
+        },
+        {
+            where: {id_lista: id}
+        })
+        resp.send("Lista popular alterado!");
+    } catch(e) {
+        resp.send({erro: e.toString()})
     }
 })
 
