@@ -46,7 +46,8 @@ app.put('/filme/:id', async(req, resp) => {
         let { nome, genero, lancamento, diretor, sinopse, avaliacao, descricao, plataforma, img_maior, img_menor } = req.body;
         let { id } = req.params;
 
-        let a = await db.infob_mw_filme.update({
+        let a = await db.infob_mw_filme.update(
+        {
             nm_filme: nome,
             ds_genero: genero,
             dt_lancamento: lancamento,
@@ -61,9 +62,9 @@ app.put('/filme/:id', async(req, resp) => {
         {
             where: {id_filme: id}
         })
-        resp.sendStatus("Filme alterado!");
+        resp.send("Filme alterado!");
     } catch(e) {
-        resp.send({erro: e.toString()})
+        resp.send({ erro: e.toString() })
     }
 })
 
