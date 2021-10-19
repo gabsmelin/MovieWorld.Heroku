@@ -230,6 +230,72 @@ app.post('/lista_item', async (req, resp) => {
          resp.send({erro: e.toString() })
     }
 
+    
+})
+
+
+app.get('/comentario', async(req, resp) => {
+    try {
+        let c = await db.infob_mw_comentario.findAll();
+        resp.send(c);
+    } catch(e) {
+        resp.send({ erro: e.toString() })
+    }
+})
+
+
+
+app.post('/comentario', async(req, resp) => {
+    try {
+        let { filme, usuario, mensagem, data, curtidas } = req.body;
+        
+        let i = await db.infob_mw_comentario.create({
+            id_filme: filme,
+            id_usuario: usuario,
+            ds_mensagem: mensagem,
+            dt_comentario: data,
+            ds_curtidas: curtidas
+        })
+        resp.send("Comentario inserido!");
+    } catch(e) {
+        resp.send({erro: e.toString()})
+    }
+})
+
+
+app.put('/comentario/:id', async(req, resp) => {
+    try {
+        let { filme, usuario, mensagem, data, curtidas } = req.body;
+        let { id } = req.params;
+
+        let a = await db.infob_mw_comentario.update({
+            id_filme: filme,
+            id_usuario: usuario,
+            ds_mensagem: mensagem,
+            dt_comentario: data,
+            ds_curtidas: curtidas
+        },
+        {
+            where: {id_cometario: id}
+        })
+        resp.send("Comentario alterado!");
+    } catch(e) {
+        resp.send({erro: e.toString()})
+    }
+})
+
+
+
+
+
+app.delete('/comentario/:id', async(req, resp) => {
+    try {
+        let { id } = req.params;
+        let c = db.infob_mw_comentario.destroy({ where: {id_cometario: id}})
+        resp.send("Comentario removido!");
+    } catch(e) {
+        resp.send({ erro: e.toString()});
+    }
 })
 
 
