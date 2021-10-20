@@ -16,8 +16,6 @@ app.get('/filme', async(req, resp) => {
     }
 })
 
-
-
 app.post('/filme', async(req, resp) => {
     try {
         let { nome, genero, lancamento, diretor, sinopse, avaliacao, descricao, plataforma, img_maior, img_menor } = req.body;
@@ -39,6 +37,8 @@ app.post('/filme', async(req, resp) => {
         resp.send({erro: e.toString()})
     }
 })
+
+
 
 
 app.put('/filme/:id', async(req, resp) => {
@@ -76,6 +76,39 @@ app.delete('/filme/:id', async(req, resp) => {
         resp.send("Filme removido!");
     } catch(e) {
         resp.send({ erro: e.toString()});
+    }
+})
+
+
+
+app.get('/filmesgosto', async(req, resp) => {
+    try {
+        let a = await db.infob_mw_filme.findAll();
+
+        a = a.map(item => {
+            return {
+              id: item.id_filme,
+              nome: item.nm_filme,
+              imagem: item.img_capa_menor
+            }
+          })
+        resp.send(a);
+    } catch(e) {
+        resp.send({erro: e.toString()})
+    }
+})
+
+app.post('/filmesgosto', async(req, resp) => {
+    try {
+        let { nome, img_menor } = req.body;
+    
+        let i = await db.infob_mw_filme.create({
+            nm_filme: nome,
+            img_capa_menor: img_menor
+        })
+        resp.send("Filme inserido!");
+    } catch(e) {
+        resp.send({erro: e.toString()})
     }
 })
 
