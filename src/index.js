@@ -1,6 +1,7 @@
 import db from "./db.js";
 import express from 'express'
 import cors from 'cors'
+import e from "express";
 
 const app = express();
 app.use(cors());
@@ -240,7 +241,7 @@ app.delete('/lista/:id', async(req, resp) => {
 })
 
 
-app.get('/lista_item', async(req, resp) => {
+app.get('/listaAssistirT', async(req, resp) => {
     try {
         let x = await db.infob_mw_lista_item.findAll();
         resp.send(x);
@@ -250,23 +251,31 @@ app.get('/lista_item', async(req, resp) => {
 })
 
 
-app.post('/lista_item', async (req, resp) => {
+app.post('/listaAssistirT', async (req, resp) => {
     try{
-        let {nome, descricao, lista } = req.body;
+        let {filme, lista } = req.body;
 
         let x = await db.infob_mw_lista_item.create({
-            id_lista_item: nome, 
-            id_filme: descricao,
-            id_lista_item: lista
+            id_filme: filme,
+            id_lista: lista
         })
          resp.send('lista criada!')  
     } catch(e) {
          resp.send({erro: e.toString() })
     }
 
-    
 })
 
+app.delete('/listaAssistirT/:id', async(req, resp) => {
+    try {
+        let { id } = req.params;
+
+        let d = await db.infob_mw_lista_item.destroy({ where: {id_lista: id }})
+        resp.send('Lista removida!')
+    } catch(e) {
+        resp.send({erro: e.toString()})
+    }
+})
 
 app.get('/comentario', async(req, resp) => {
     try {
@@ -318,10 +327,6 @@ app.put('/comentario/:id', async(req, resp) => {
 })
 
 
-
-
-
-
 app.delete('/comentario/:id', async(req, resp) => {
     try {
         let { id } = req.params;
@@ -344,8 +349,6 @@ app.get('/lista_popular', async(req, resp) => {
 })
 
 
-
-
 app.put('/lista_popular/:id', async(req, resp) => {
     try {
         let { nome_lista, descricao } = req.body;
@@ -363,7 +366,6 @@ app.put('/lista_popular/:id', async(req, resp) => {
         resp.send({erro: e.toString()})
     }
 })
-
 
 
 

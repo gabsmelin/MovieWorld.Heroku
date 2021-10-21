@@ -22,7 +22,7 @@ export default class infob_mw_lista extends Model {
       type: DataTypes.STRING(255),
       allowNull: true
     }
-  }, {
+  }, { 
     sequelize,
     tableName: 'infob_mw_lista',
     timestamps: false,
@@ -42,6 +42,7 @@ export default class infob_mw_lista extends Model {
           { name: "id_usuario" },
         ]
       },
+     
     ]
   });
   return infob_mw_lista;
