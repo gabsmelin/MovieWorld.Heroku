@@ -189,7 +189,7 @@ app.delete('/usuario/:id', async(req, resp) => {
 
 app.get('/lista', async(req, resp) => {
     try {
-        let l = await db.infob_mw_usuario.findAll();
+        let l = await db.infob_mw_lista.findAll();
         resp.send(l);
     } catch(e) {
         resp.send({ erro: e.toString() })
@@ -198,9 +198,10 @@ app.get('/lista', async(req, resp) => {
 
 app.post('/lista', async(req, resp) => {
     try {
-        let { nome, descricao } = req.body;
+        let { nome, descricao, usuario } = req.body;
 
-        let i = await db.infob_mw_usuario.create({
+        let i = await db.infob_mw_lista.create({
+            id_usuario: usuario,
             nm_lista: nome, 
             ds_descricao: descricao
         })
@@ -215,7 +216,7 @@ app.put('/lista/:id', async(req, resp) => {
         let { nome, descricao } = req.body;
         let { id } = req.params;
 
-        let a = await db.infob_mw_usuario.update({
+        let a = await db.infob_mw_lista.update({
             nm_lista: nome,
             ds_descricao: descricao
         },
@@ -232,7 +233,7 @@ app.delete('/lista/:id', async(req, resp) => {
     try {
         let { id } = req.params;
 
-        let d = await db.infob_mw_usuario.destroy({ where: {id_lista: id }})
+        let d = await db.infob_mw_lista.destroy({ where: {id_lista: id }})
         resp.send('Lista removida!')
     } catch(e) {
         resp.send({erro: e.toString()})
@@ -363,6 +364,9 @@ app.put('/lista_popular/:id', async(req, resp) => {
         resp.send({erro: e.toString()})
     }
 })
+
+
+
 
 
 
