@@ -23,7 +23,7 @@ app.post('/filme', async(req, resp) => {
         let i = await db.infob_mw_filme.create({
             nm_filme: nome,
             ds_genero: genero,
-            dt_lancamento: lancamento,
+            ano_lancamento: lancamento,
             nm_diretor: diretor, 
             ds_sinopse: sinopse,
             ds_avaliacao: avaliacao,
@@ -50,7 +50,7 @@ app.put('/filme/:id', async(req, resp) => {
         {
             nm_filme: nome,
             ds_genero: genero,
-            dt_lancamento: lancamento,
+            ano_lancamento: lancamento,
             nm_diretor: diretor, 
             ds_sinopse: sinopse,
             ds_avaliacao: avaliacao,
