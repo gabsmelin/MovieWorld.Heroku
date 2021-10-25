@@ -2,6 +2,8 @@ import db from "./db.js";
 import express from 'express'
 import cors from 'cors'
 
+import enviarEmail from "./enviarEmail.js";
+
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -522,8 +524,70 @@ app.put('/lista_popular/:id', async(req, resp) => {
     }
 })
 
+app.delete('/MeusF_Ja', async (req,resp) => { 
+    try{ 
+        let { id } = req.params; 
+        let Filme_Ja = db.infob_mw_filme_ja_assistidos.destroy({ where: { id_filme: id }}) 
+        resp.send("Filme removido!"); 
+     } catch(e) { 
+         resp.send({ erro: e.toString()}); 
+     }
+  } )
 
 
+
+
+app.post('/login', async (req, resp) => {
+const usuario = await db.infob_mw_usuario.findOne({
+    where: {
+       ds_email: req.body.email,
+       ds_senha: req.body.senha
+    }
+})
+    if (!usuario) {
+        resp.send({ status: 'erro', mensagem: 'Credenciais inválidas.'});
+    } else {
+        resp.send({ status: 'ok', nome: usuario.nm_usuario});
+    }
+})
+
+
+app.post('/esqueciSenha', async (req, resp) => {
+ const usuario = await db.infob_mw_usuario.findOne ({
+    where : {
+        ds_email: req.body.email
+    }
+ });
+ if(!usuario) {
+    resp.send({ status: 'erro', mensagem: 'E-mail não existe'});
+ }
+ let codigo = getRandomInteger(1000, 9999);
+ await db.infob_mw_usuario.update({
+    ds_codigo_rec: codigo
+ }, {
+     where: {id_usuario: usuario.id_usuario}
+ })
+    enviarEmail(usuario.ds_email, 'Recuperação De Senha', `
+    <h3> Recuperação de senha </h3>
+    <p> Sua recuperação de senha da sua conta foi atendida 
+    <p> insira esse código ${codigo} para recuper sua conta
+    
+    `) 
+
+})
+
+app.post('/validarcodigo', async (req, resp) => {
+
+})
+
+app.put('/resetarsenha', async (req, resp) => {
+
+})
+
+
+function getRandomInteger(min, max) {
+    return Math.floor(Math.random() * (max - min) ) + min;
+  }
 
 app.listen(process.env.PORT,
     x => console.log(`Subiu a api, hehe ${process.env.PORT}`))
