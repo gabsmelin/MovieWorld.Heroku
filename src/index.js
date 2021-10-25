@@ -505,6 +505,16 @@ app.put('/lista_popular/:id', async(req, resp) => {
     }
 })
 
+app.delete('/MeusF_Ja', async (req,resp) => { 
+    try{ 
+        let { id } = req.params; 
+        let Filme_Ja = db.infob_mw_filme_ja_assistidos.destroy({ where: { id_filme: id }}) 
+        resp.send("Filme removido!"); 
+     } catch(e) { 
+         resp.send({ erro: e.toString()}); 
+     }
+  } )
+
 
 
 
