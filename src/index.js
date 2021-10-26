@@ -581,17 +581,44 @@ app.post('/esqueciSenha', async (req, resp) => {
     <p> insira esse código ${codigo} para recuper sua conta
     
     `) 
+    resp.send({ status: 'ok'})
 
 })
 
 app.post('/validarcodigo', async (req, resp) => {
-
+    const usuario = await db.infob_mw_usuario.findOne ({
+        where : {
+            ds_email: req.body.email
+        }
+     });
+     if(!usuario) {
+        resp.send({ status: 'erro', mensagem: 'E-mail não existe'});
+     }
+     if (usuario.ds_codigo_rec !== req.body.codigo) {
+        resp.send({ status: 'erro', mensagem: 'Código inválido.'});
+     }
+     resp.send({ status: 'ok', mensagem: 'Código validado.'});   
 })
 
 app.put('/resetarsenha', async (req, resp) => {
-
+    const usuario = await db.infob_mw_usuario.findOne ({
+        where : {
+            ds_email: req.body.email
+        }
+     });
+     if(!usuario) {
+        resp.send({ status: 'erro', mensagem: 'E-mail não existe'});
+     }
+     if (usuario.ds_codigo_rec !== req.body.codigo) {
+        resp.send({ status: 'erro', mensagem: 'Código inválido.'});
+     }
+     await db.infob_mw_usuario.update({
+        ds_senha: req.body.novaSenha
+    }, {  
+    id_usuario: usuario.id_usuario
+    })
+    resp.send({ status: 'ok', mensagem: 'Senha Alterada.'});
 })
-
 
 function getRandomInteger(min, max) {
     return Math.floor(Math.random() * (max - min) ) + min;
