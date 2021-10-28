@@ -233,7 +233,7 @@ app.get('/usuario', async(req, resp) => {
 
 app.post('/usuario', async(req, resp) => {
     try {
-        let { nome, sobrenome, username, email, senha, genero, localizacao, redes, fotoperfil } = req.body;
+        let { nome, sobrenome, username, email, senha, genero, localizacao, redes, fotoperfil, codigo } = req.body;
         
         let i = await db.infob_mw_usuario.create({
             nm_usuario: nome,
@@ -245,7 +245,8 @@ app.post('/usuario', async(req, resp) => {
             ds_nascimento: new Date(),
             ds_localizacao: localizacao,
             ds_redes_sociais: redes,
-            ds_foto: fotoperfil
+            ds_foto: fotoperfil,
+            ds_codigo_rec: codigo
         })
         resp.send("Usuário inserido!");
     } catch(e) {
@@ -609,13 +610,15 @@ app.put('/resetarsenha', async (req, resp) => {
      if(!usuario) {
         resp.send({ status: 'erro', mensagem: 'E-mail não existe'});
      }
-     if (usuario.ds_codigo_rec !== req.body.codigo) {
+     if (usuario.ds_codigo_rec !== req.body.codigo || 
+        usuario.ds_codigo_rec === '') {
         resp.send({ status: 'erro', mensagem: 'Código inválido.'});
      }
      await db.infob_mw_usuario.update({
-        ds_senha: req.body.novaSenha
+        ds_senha: req.body.novaSenha,
+        ds_codigo_rec: ''
     }, {  
-    id_usuario: usuario.id_usuario
+    where: { id_usuario: usuario.id_usuario }
     })
     resp.send({ status: 'ok', mensagem: 'Senha Alterada.'});
 })
