@@ -684,7 +684,7 @@ app.put('/resetarsenha', async (req, resp) => {
      await db.infob_mw_usuario.update({
         ds_senha: req.body.novaSenha
     }, {  
-    id_usuario: usuario.id_usuario
+    where: {id_usuario: usuario.id_usuario}
     })
     resp.send({ status: 'ok', mensagem: 'Senha Alterada.'});
 })

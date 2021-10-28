@@ -5,8 +5,8 @@ const sender = nodemailer.createTransport({
   port: 500,
   secure: false,
   auth: {
-    user: 'juliogames590@gmail.com',
-    pass: 'rezendeevil',
+    user: 'mailing.tcc.info@acaonsfatima.org.br',
+    pass: 'mailing#tcc',
   },
 });
 
@@ -20,6 +20,6 @@ async function enviarEmail(para, assunto, mensagem) {
     })
     return response;
   }
-  
+
   
   export default enviarEmail;
