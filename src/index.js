@@ -1,6 +1,7 @@
 import db from "./db.js";
 import express from 'express'
 import cors from 'cors'
+import App from "../../reactjs/src/components/comum/menu/index.js";
 
 //import enviarEmail from "./enviarEmail.js";
 
@@ -179,7 +180,8 @@ app.get('/filmespops', async(req, resp) => {
             return {
               id: item.id_filme,
               nome: item.nm_filme,
-              imagem: item.img_capa_menor
+              imagem: item.img_capa_menor,
+              avaliacao: item.ds_avaliacao
             }
           })
         resp.send(a);
@@ -190,7 +192,22 @@ app.get('/filmespops', async(req, resp) => {
 
 
 
+function Ordenação(criterio) {
+    switch(criterio) {
+        case 'A - Z': return['nm_filme', 'asc'] 
+        case 'Z - A': return['nm_filme', 'desc'] 
+    }
+}
 
+app.get("/filmesjassistidos", async(req, resp) => {
+    let Ordenar = Ordenação(req.query.ordenacao)
+    const filmes = await db.infob_mw_filme.findAll({
+        order: [
+            Ordenar
+        ]
+    })
+    resp.send(filmes)
+})
 
 /////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////
