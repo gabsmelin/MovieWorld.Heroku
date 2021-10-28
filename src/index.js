@@ -1,6 +1,7 @@
 import db from "./db.js";
 import express from 'express'
 import cors from 'cors'
+import enviarEmail  from "./enviarEmail.js"; 
 
 //import enviarEmail from "./enviarEmail.js";
 
@@ -614,12 +615,14 @@ app.delete('/MeusF_Ja', async (req,resp) => {
 
 
 app.post('/login', async (req, resp) => {
-const usuario = await db.infob_mw_usuario.findOne({
-    where: {
-       ds_email: req.body.email,
-       ds_senha: req.body.senha
-    }
-})
+    let { email, senha } = req.body;
+    const usuario = await db.infob_mw_usuario.findAll({
+        where: {
+        ds_email: email,
+        ds_senha: senha
+        }
+    })
+
     if (!usuario) {
         resp.send({ status: 'erro', mensagem: 'Credenciais inválidas.'});
     } else {
@@ -646,8 +649,7 @@ app.post('/esqueciSenha', async (req, resp) => {
     enviarEmail(usuario.ds_email, 'Recuperação De Senha', `
     <h3> Recuperação de senha </h3>
     <p> Sua recuperação de senha da sua conta foi atendida 
-    <p> insira esse código ${codigo} para recuper sua conta
-    
+    <p> insira esse código ${codigo} para recuperar ir adiante com a recuperação. 
     `) 
     resp.send({ status: 'ok'})
 

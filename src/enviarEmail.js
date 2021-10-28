@@ -2,18 +2,18 @@
 import nodemailer from 'nodemailer'
 const sender = nodemailer.createTransport({
   host: "smtp.gmail.com",
-  port: 500,
+  port: 587,
   secure: false,
   auth: {
-    user: 'mailing.tcc.info@acaonsfatima.org.br',
-    pass: 'mailing#tcc',
+    user: 'movieworldcontacts@gmail.com',
+    pass: 'tcc@mw2021',
   },
 });
 
 
 async function enviarEmail(para, assunto, mensagem) {
     const response = await sender.sendMail({
-      from: '"TCC INSF" <mailing.tcc.info@acaonsfatima.org.br>',
+      from: '"Movie Word" <movieworldcontacts@gmail.com>',
       to: para, 
       subject: assunto,
       html: mensagem
