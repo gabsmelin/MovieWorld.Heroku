@@ -1,7 +1,6 @@
 import db from "./db.js";
 import express from 'express'
 import cors from 'cors'
-import App from "../../reactjs/src/components/comum/menu/index.js";
 
 //import enviarEmail from "./enviarEmail.js";
 
