@@ -194,15 +194,19 @@ app.get('/filmespops', async(req, resp) => {
 function Ordenação(criterio) {
     switch(criterio) {
         case 'A - Z': return['nm_filme', 'asc'] 
-        case 'Z - A': return['nm_filme', 'desc'] 
+        case 'Z - A': return['nm_filme', 'desc']
+        case 'Avaliação': return['ds_avaliacao', 'desc']
+
+        default: return['nm_filme', 'asc'] 
     }
 }
 
 app.get("/filmesjassistidos", async(req, resp) => {
     let Ordenar = Ordenação(req.query.ordenacao)
+
     const filmes = await db.infob_mw_filme.findAll({
         order: [
-            Ordenar
+            Ordenar 
         ]
     })
     resp.send(filmes)
