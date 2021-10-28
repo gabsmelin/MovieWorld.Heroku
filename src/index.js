@@ -2,11 +2,13 @@ import db from "./db.js";
 import express from 'express'
 import cors from 'cors'
 
-import enviarEmail from "./enviarEmail.js";
+//import enviarEmail from "./enviarEmail.js";
 
 const app = express();
 app.use(cors());
 app.use(express.json());
+
+
 
 
 
@@ -107,8 +109,17 @@ app.delete('/filme/:id', async(req, resp) => {
     }
 })
 
+
+
+
+
+
 //////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////
+
+
+
+
 
 /// Filmes por gosto ///
 
@@ -146,6 +157,47 @@ app.post('/filmesgosto', async(req, resp) => {
         resp.send({erro: e.toString()})
     }
 })
+
+
+
+
+
+//////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////
+
+
+
+
+
+/// Filmes populares ///
+
+app.get('/filmespops', async(req, resp) => {
+    try {
+        let a = await db.infob_mw_filme.findAll({order: [['ds_avaliacao', 'desc']]});
+
+        a = a.map(item => {
+            return {
+              id: item.id_filme,
+              nome: item.nm_filme,
+              imagem: item.img_capa_menor
+            }
+          })
+        resp.send(a);
+    } catch(e) {
+        resp.send({erro: e.toString()})
+    }
+})
+
+
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
 
 app.get('/comentario', async(req, resp) => {
     try {
