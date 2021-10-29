@@ -3,9 +3,9 @@ import db from "../db.js";
 
 const app = Router();
 
-app.get('/', async(req, resp) => {
+app.get('/listar', async(req, resp) => {
     try {
-        let a = await db.infob_mw_filme.findAll();
+        let a = await db.infob_mw_filmes.findAll();
 
         a = a.map(item => {
             return {
@@ -29,14 +29,14 @@ app.get('/', async(req, resp) => {
 })
 
 
-app.post('/', async(req, resp) => {
+app.post('/inserir', async(req, resp) => {
     try {
         let { nome, genero, lancamento, diretor, sinopse, avaliacao, descricao, plataforma, img_maior, img_menor } = req.body;
     
         if(nome == "" && nome.length < 2 || genero == "" || genero <= 3 || lancamento == "" && lancamento.length < 2 || diretor == "" && diretor.length <= 0 || sinopse == "" && sinopse.length <= 0 || avaliacao == "" && avaliacao.length <= 0 || descricao == "" && descricao.length <= 0 || avaliacao.length <= 0 || descricao == "" && descricao.length <= 0 || plataforma == "" && plataforma.length <= 0 || img_menor == "" && img_menor.length <= 0 || img_maior == "" && img_maior.length <= 0) {
             resp.send({erro: '❌ Campos inválidos!'})
         } else {
-            let i = await db.infob_mw_filme.create({
+            let i = await db.infob_mw_filmes.create({
                 nm_filme: nome,
                 ds_genero: genero,
                 ano_lancamento: lancamento,
@@ -56,7 +56,7 @@ app.post('/', async(req, resp) => {
 })
 
 
-app.put('/filme/:id', async(req, resp) => {
+app.put('/alterar/:id', async(req, resp) => {
     try {
         let { nome, genero, lancamento, diretor, sinopse, avaliacao, descricao, plataforma, img_maior, img_menor } = req.body;
         let { id } = req.params;
@@ -64,7 +64,7 @@ app.put('/filme/:id', async(req, resp) => {
         if(nome == "" && nome.length < 2 || genero == "" || genero <= 3 || lancamento == "" && lancamento.length < 2 || diretor == "" && diretor.length <= 0 || sinopse == "" && sinopse.length <= 0 || avaliacao == "" && avaliacao.length <= 0 || descricao == "" && descricao.length <= 0 || avaliacao.length <= 0 || descricao == "" && descricao.length <= 0 || plataforma == "" && plataforma.length <= 0 || img_menor == "" && img_menor.length <= 0 || img_maior == "" && img_maior.length <= 0) {
             resp.send({erro: '❌ Campos inválidos!'})
         } else {
-            let a = await db.infob_mw_filme.update(
+            let a = await db.infob_mw_filmes.update(
             {
                 nm_filme: nome,
                 ds_genero: genero,
@@ -88,10 +88,10 @@ app.put('/filme/:id', async(req, resp) => {
 })
 
 
-app.delete('/filme/:id', async(req, resp) => {
+app.delete('/deletar/:id', async(req, resp) => {
     try {
         let { id } = req.params;
-        let d = db.infob_mw_filme.destroy({ where: {id_filme: id}})
+        let d = db.infob_mw_filmes.destroy({ where: {id_filme: id}})
         resp.send("Filme removido!");
     } catch(e) {
         resp.send({ erro: e.toString()});

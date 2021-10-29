@@ -5,9 +5,59 @@ import db from "../db.js";
 
 const app = Router();
 
+import Sequelize from 'sequelize';
+const { Op } = Sequelize;
+
+app.get('/listart', async(req, resp) => {
+    try {
+        let coment = await db.infob_mw_comentarios.findAll({
+            include: [{
+                model: db.infob_mw_usuario,
+                as: 'infob_mw_usuario',
+                required: true
+            }],
+            include: [{
+                model: db.infob_mw_filmes,
+                as: 'infob_mw_filmes',
+                required: true
+            }],
+            order: [
+                ['ds_curtidas', 'desc']
+            ]
+        })
+
+        resp.send(coment)
+    } catch(e) {
+        resp.send({e:erro.toString()})
+    }
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 app.get('/listar', async(req, resp) => {
     try {
-        let c = await db.infob_mw_comentario.findAll();
+        let c = await db.infob_mw_comentarios.findAll();
 
         c = c.map(item => {
             return {
@@ -30,7 +80,7 @@ app.post('/inserir', async(req, resp) => {
     try {
         let { id_filme, id_usuario, mensagem, curtidas } = req.body;
         
-        let i = await db.infob_mw_comentario.create({
+        let i = await db.infob_mw_comentarios.create({
             id_filme: id_filme,
             id_usuario: id_usuario,
             ds_mensagem: mensagem,
@@ -49,7 +99,7 @@ app.put('/alterar/:id', async(req, resp) => {
         let { id_filme, id_usuario, mensagem,curtidas } = req.body;
         let { id } = req.params;
 
-        let a = await db.infob_mw_comentario.update({
+        let a = await db.infob_mw_comentarios.update({
             id_filme: id_filme,
             id_usuario: id_usuario,
             ds_mensagem: mensagem,
@@ -68,7 +118,7 @@ app.put('/alterar/:id', async(req, resp) => {
 app.delete('/deletar/:id', async(req, resp) => {
     try {
         let { id } = req.params;
-        let c = db.infob_mw_comentario.destroy({ where: {id_cometario: id}})
+        let c = db.infob_mw_comentarios.destroy({ where: {id_cometario: id}})
         resp.send("Comentario removido!");
     } catch(e) {
         resp.send({ erro: e.toString()});

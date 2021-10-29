@@ -1,9 +1,6 @@
-import db from "./db.js";
 import express from 'express'
 import cors from 'cors'
-import enviarEmail  from "./enviarEmail.js"; 
-import crypto from 'crypto-js'
-
+import db from "./db.js";
 
 import filmeControler from './Controller/filmeController.js';
 import usuarioControler from './Controller/usuarioController.js';
@@ -25,6 +22,51 @@ app.use('/listar', listaControler);
 app.use('/filmeUsu', filmeUsuControler);
 app.use('/listarItem', listaItemControler);
 app.use('/login', loginControler);
+
+
+
+function Ordenação(criterio) {
+    switch(criterio) {
+        case 'A - Z': return['nm_filme', 'asc'] 
+        case 'Z - A': return['nm_filme', 'desc']
+        case 'Avaliação': return['ds_avaliacao', 'desc']
+
+        default: return['nm_filme', 'asc'] 
+    }
+}
+
+app.get("/filmesjassistidos", async(req, resp) => {
+    try {
+        let Ordenar = Ordenação(req.query.ordenacao)
+
+        let filmes = await db.infob_mw_filme.findAll({
+            order: [
+                Ordenar 
+            ]
+        })
+
+        filmes = filmes.map(item => {
+            return {
+              id: item.id_filme,
+              nome: item.nm_filme,
+              genero: item.ds_genero,
+              lancamento: item.ano_lancamento,
+              diretor: item.nm_diretor, 
+              sinopse: item.ds_sinopse,
+              avaliacao: item.ds_avaliacao, 
+              descricao: item.ds_descricao, 
+              plataforma: item.ds_plataforma, 
+              img_maior: item.img_capa_maior, 
+              img_menor: item.img_capa_menor
+            }
+          })
+
+        resp.send(filmes);
+    } catch(e) {
+        resp.send({erro: e.toString()})
+    }
+})
+
 
 
 app.listen(process.env.PORT,

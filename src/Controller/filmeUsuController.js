@@ -6,7 +6,7 @@ const app = Router();
 ////////////////////////////////////////// POR GOSTO //////////////////////////////////////////
 app.get('/filmesgosto', async(req, resp) => {
     try {
-        let a = await db.infob_mw_filme.findAll();
+        let a = await db.infob_mw_filmes.findAll();
 
         a = a.map(item => {
             return {
@@ -29,7 +29,7 @@ app.get('/filmesgosto', async(req, resp) => {
 ////////////////////////////////////////// POPULARES //////////////////////////////////////////
 app.get('/filmespops', async(req, resp) => {
     try {
-        let a = await db.infob_mw_filme.findAll({order: [['ds_avaliacao', 'desc']]});
+        let a = await db.infob_mw_filmes.findAll({order: [['ds_avaliacao', 'desc']]});
         a = a.map(item => {
             return {
               id: item.id_filme,
@@ -44,8 +44,6 @@ app.get('/filmespops', async(req, resp) => {
     }
 })
 
-
-
 function Ordenação(criterio) {
     switch(criterio) {
         case 'A - Z': return['nm_filme', 'asc'] 
@@ -55,32 +53,28 @@ function Ordenação(criterio) {
         default: return['nm_filme', 'asc'] 
     }
 }
-
-app.get("/filmesjassistidos", async(req, resp) => {
+app.get("/ja", async(req, resp) => {
     let Ordenar = Ordenação(req.query.ordenacao)
 
-    const filmes = await db.infob_mw_filme.findAll({
-        order: [
-            Ordenar 
-        ]
-    })
+    let filmes = await db.infob_mw_filmes.findAll({ order: [ Ordenar ] })
+
+    filmes = filmes.map(item => {
+        return {
+          id: item.id_filme,
+          nome: item.nm_filme,
+          genero: item.ds_genero,
+          lancamento: item.ano_lancamento,
+          diretor: item.nm_diretor, 
+          sinopse: item.ds_sinopse,
+          avaliacao: item.ds_avaliacao, 
+          descricao: item.ds_descricao, 
+          plataforma: item.ds_plataforma, 
+          img_maior: item.img_capa_maior, 
+          img_menor: item.img_capa_menor
+        }
+      })
     resp.send(filmes)
 })
-
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-//////////////////////////////////////////////// JÁ ASSISTIDOS ////////////////////////////////////////////////
-app.delete('/MeusF_Ja', async (req,resp) => { 
-    try{ 
-        let { id } = req.params; 
-        let Filme_Ja = db.infob_mw_filme_ja_assistidos.destroy({ where: { id_filme: id }}) 
-        resp.send("Filme removido!"); 
-     } catch(e) { 
-         resp.send({ erro: e.toString()}); 
-     }
-  } )
 
 
 export default app

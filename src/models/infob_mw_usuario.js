@@ -5,10 +5,10 @@ export default class infob_mw_usuario extends Model {
   static init(sequelize, DataTypes) {
   super.init({
     id_usuario: {
-      autoIncrement: true,
       type: DataTypes.INTEGER,
       allowNull: false,
-      primaryKey: true
+      primaryKey: true,
+      autoIncrement: true
     },
     nm_usuario: {
       type: DataTypes.STRING(255),
@@ -48,6 +48,10 @@ export default class infob_mw_usuario extends Model {
     },
     ds_foto: {
       type: DataTypes.STRING(1000),
+      allowNull: true
+    },
+    ds_codigo_rec: {
+      type: DataTypes.INTEGER,
       allowNull: true
     }
   }, {
