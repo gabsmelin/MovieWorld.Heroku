@@ -2,6 +2,8 @@ import db from "./db.js";
 import express from 'express'
 import cors from 'cors'
 import enviarEmail  from "./enviarEmail.js"; 
+import crypto from 'crypto-js'
+
 
 import filmeControler from './Controller/filmeController.js';
 import usuarioControler from './Controller/usuarioController.js';
@@ -23,6 +25,7 @@ app.use('/listar', listaControler);
 app.use('/filmeUsu', filmeUsuControler);
 app.use('/listarItem', listaItemControler);
 app.use('/login', loginControler);
+
 
 app.listen(process.env.PORT,
     x => console.log(`Subiu a api, hehe ${process.env.PORT}`))
