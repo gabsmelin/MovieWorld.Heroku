@@ -12,14 +12,14 @@ const sender = nodemailer.createTransport({
 
 
 async function enviarEmail(para, assunto, mensagem) {
-    const response= await sender.sendMail({
-      from: '"Movie Word" <mailing.tcc.info@acaonsfatima.org.br>',
+    const response = await sender.sendMail({
+      from: '"Movie Word" <movieworldcontacts@gmail.com>',
       to: para, 
       subject: assunto,
       html: mensagem
     })
     return response;
   }
-  
+
   
   export default enviarEmail;
