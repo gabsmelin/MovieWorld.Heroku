@@ -1,8 +1,9 @@
 import db from "./db.js";
 import express from 'express'
 import cors from 'cors'
+import crypto from 'crypto-js'
 
-//import enviarEmail from "./enviarEmail.js";
+import enviarEmail from "./enviarEmail.js";
 
 const app = express();
 app.use(cors());
@@ -292,7 +293,7 @@ app.post('/usuario', async(req, resp) => {
             nm_sobrenome: sobrenome,
             nm_username: username,
             ds_email: email,
-            ds_senha: senha,
+            ds_senha: crypto.SHA256(senha).toString(crypto.enc.Base64),
             ds_genero: genero,
             ds_nascimento: new Date(),
             ds_localizacao: localizacao,
@@ -599,10 +600,12 @@ app.delete('/MeusF_Ja', async (req,resp) => {
 
 
 app.post('/login', async (req, resp) => {
+const senha = req.body.senha;
+const cryptoSenha = crypto.SHA256(senha).toString(crypto.enc.Base64);
 const usuario = await db.infob_mw_usuario.findOne({
     where: {
        ds_email: req.body.email,
-       ds_senha: req.body.senha
+       ds_senha: cryptoSenha
     }
 })
     if (!usuario) {
