@@ -638,7 +638,7 @@ app.post('/esqueciSenha', async (req, resp) => {
     <p> insira esse código ${codigo} para recuper sua conta
     
     `) 
-    resp.send({ status: 'Código Enviado'})
+    resp.send({ status: 'Código Enviado'});
 
 })
 
@@ -651,11 +651,13 @@ app.post('/validarcodigo', async (req, resp) => {
      if(!usuario) {
         resp.send({ status: 'erro', mensagem: 'E-mail não existe'});
      }
-     if (usuario.ds_codigo_rec !== req.body.codigo) {
+     if (usuario.ds_codigo_rec !== req.body.code) {
         resp.send({ status: 'erro', mensagem: 'Código inválido.'});
+     } 
+     else{
+     return resp.send({ status: 'ok', mensagem: 'Código validado.'});   
      }
-     resp.send({ status: 'ok', mensagem: 'Código validado.'});   
-})
+})  
 
 app.put('/resetarsenha', async (req, resp) => {
     const usuario = await db.infob_mw_usuario.findOne ({
@@ -684,4 +686,4 @@ function getRandomInteger(min, max) {
 }
 
 app.listen(process.env.PORT,
-    x => console.log(`Subiu a api, hehe ${process.env.PORT}`))
+    x => console.log(`Subiu a api, hehe ${process.env.PORT}`))  
