@@ -7,7 +7,7 @@ const app = Router();
 
 app.get('/lista', async(req, resp) => {
     try {
-        let l = await db.infob_mw_usuario.findAll();
+        let l = await db.infob_mw_lista.findAll({ order: [['id_lista', 'desc']] });
         resp.send(l);
     } catch(e) {
         resp.send({ erro: e.toString() })
@@ -16,13 +16,20 @@ app.get('/lista', async(req, resp) => {
 
 app.post('/lista', async(req, resp) => {
     try {
-        let { nome, descricao } = req.body;
-
-        let i = await db.infob_mw_usuario.create({
-            nm_lista: nome, 
-            ds_descricao: descricao
-        })
-        resp.send('Lista criada!')
+        let { lista, descricao } = req.body;
+        let consulta = await db.infob_mw_lista.findOne({ where: {nm_lista: lista} })
+        if(consulta != null){
+            resp.send({erro: 'essa lista já existe'})
+        } else 
+            if (lista == "" || descricao == ""){
+                resp.send({ erro: "todos os campos são obrigatórios" })
+            } else {
+                let l = await db.infob_mw_lista.create({
+                    nm_lista: lista,
+                    ds_descricao: descricao
+                })
+                resp.send('lista criada')
+            }
     } catch(e) {
         resp.send({ erro: e.toString() })
     }
@@ -30,17 +37,25 @@ app.post('/lista', async(req, resp) => {
 
 app.put('/lista/:id', async(req, resp) => {
     try {
-        let { nome, descricao } = req.body;
+        let { lista, descricao } = req.body;
         let { id } = req.params;
+        let consulta = await db.infob_mw_lista.findOne({ where: {nm_lista: lista} })
 
-        let a = await db.infob_mw_usuario.update({
-            nm_lista: nome,
-            ds_descricao: descricao
-        },
-        {
-            where: {id_lista: id}
-        })
-        resp.send('Lista alterada!')
+        if(consulta != null){
+            resp.send({erro: 'essa lista já existe'})
+        } else 
+            if (lista == "" || descricao == ""){
+                resp.send({ erro: "todos os campos são obrigatórios" })
+            } else {
+                let l = await db.infob_mw_lista.update({
+                    nm_lista: lista,
+                    ds_descricao: descricao
+                },
+                {
+                    where: {id_lista: id}
+                })
+                resp.send('lista alterada');
+            }
     } catch(e) {
         resp.send({ erro: e.toString() })
     }
@@ -49,13 +64,11 @@ app.put('/lista/:id', async(req, resp) => {
 app.delete('/lista/:id', async(req, resp) => {
     try {
         let { id } = req.params;
-
-        let d = await db.infob_mw_usuario.destroy({ where: {id_lista: id }})
-        resp.send('Lista removida!')
+        let l = await db.infob_mw_lista.destroy({ where: { id_lista: id }})
+        resp.send('lista removida')
     } catch(e) {
         resp.send({erro: e.toString()})
     }
 })
-
 
 export default app
