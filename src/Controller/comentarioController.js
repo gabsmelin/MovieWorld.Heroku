@@ -8,17 +8,18 @@ const app = Router();
 import Sequelize from 'sequelize';
 const { Op } = Sequelize;
 
-app.get('/listart', async(req, resp) => {
+app.get('/listaru', async(req, resp) => {
     try {
         let coment = await db.infob_mw_comentarios.findAll({
             include: [{
-                model: db.infob_mw_usuario,
-                as: 'infob_mw_usuario',
-                required: true
-            }],
-            include: [{
                 model: db.infob_mw_filmes,
                 as: 'infob_mw_filmes',
+                required: true,
+                attributes: ['nm_filme']
+            }],
+            include: [{
+                model: db.infob_mw_usuario,
+                as: 'infob_mw_usuario',
                 required: true
             }],
             order: [
@@ -31,9 +32,6 @@ app.get('/listart', async(req, resp) => {
         resp.send({e:erro.toString()})
     }
 })
-
-
-
 
 
 
