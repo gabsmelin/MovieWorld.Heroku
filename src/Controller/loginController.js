@@ -24,12 +24,21 @@ app.post('/login', async (req, resp) => {
     
 
 
-app.post('/esqueciSenha', async (req, resp) => {
- const usuario = await db.infob_mw_usuario.findOne ({
-    where : {
-        ds_email: req.body.email
+  function getRandomInteger(min, max) {
+    return Math.floor(Math.random() * (max - min) ) + min;
+  }
+  
+  app.post('/esqueci', async (req, resp) => {
+    const usuario = await db.infob_mw_usuario.findOne({
+      where: {
+        ds_email: req.body.email   
+      }
+    });
+  
+    if (!usuario) {
+      resp.send({ status: 'erro', mensagem: 'E-mail inválido.' });
     }
- });
+ 
  if(!usuario) {
     resp.send({ status: 'erro', mensagem: 'E-mail não existe'});
  }
@@ -46,7 +55,6 @@ app.post('/esqueciSenha', async (req, resp) => {
     
     `) 
     resp.send({ status: 'Código Enviado'});
-
 })
 
 app.post('/validarcodigo', async (req, resp) => {
@@ -85,11 +93,10 @@ app.put('/resetarsenha', async (req, resp) => {
     }, {  
     where: { id_usuario: usuario.id_usuario }
     })
-    resp.send({ status: 'ok', mensagem: 'Senha Alterada.'});
-})
+  
+    resp.send({ status: 'ok', mensagem: 'Senha alterada.' });
+  })
 
-function getRandomInteger(min, max) {
-    return Math.floor(Math.random() * (max - min) ) + min;
-}
+
 
 export default app

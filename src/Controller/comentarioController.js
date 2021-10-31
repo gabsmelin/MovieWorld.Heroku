@@ -53,6 +53,7 @@ app.get('/listaru', async(req, resp) => {
 
 
 
+
 app.get('/listar', async(req, resp) => {
     try {
         let c = await db.infob_mw_comentarios.findAll();
@@ -94,14 +95,14 @@ app.post('/inserir', async(req, resp) => {
 
 app.put('/alterar/:id', async(req, resp) => {
     try {
-        let { id_filme, id_usuario, mensagem,curtidas } = req.body;
+        let { filme, usuario, mensagem, curtidas } = req.body;
         let { id } = req.params;
 
         let a = await db.infob_mw_comentarios.update({
-            id_filme: id_filme,
-            id_usuario: id_usuario,
-            ds_mensagem: mensagem,
-            ds_curtidas: curtidas
+            id_filme: filme,
+            id_usuario: usuario,
+            mensagem: mensagem,
+            curtidas: curtidas
         },
         {
             where: {id_cometario: id}
