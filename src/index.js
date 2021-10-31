@@ -339,7 +339,7 @@ app.delete('/usuario/:id', async(req, resp) => {
     try {
         let { id } = req.params;
         let d = db.infob_mw_usuario.destroy({ where: {id_usuario: id}})
-        resp.send("Produto removido!");
+        resp.send("Usuario removido!");
     } catch(e) {
         resp.send({ erro: e.toString()});
     }
@@ -613,6 +613,7 @@ const usuario = await db.infob_mw_usuario.findOne({
     } else {
         resp.send({ status: 'ok', nome: usuario.nm_usuario});
     }
+
 })
 
 
@@ -637,7 +638,7 @@ app.post('/esqueciSenha', async (req, resp) => {
     <p> insira esse código ${codigo} para recuper sua conta
     
     `) 
-    resp.send({ status: 'ok'})
+    resp.send({ status: 'Código Enviado'})
 
 })
 
