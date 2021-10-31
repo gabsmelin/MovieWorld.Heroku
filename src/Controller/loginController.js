@@ -5,22 +5,23 @@ import enviarEmail  from "../enviarEmail.js";
 
 
 const app = Router();
-
 app.post('/login', async (req, resp) => {
-    let { email, senha } = req.body;
-    const usuario = await db.infob_mw_usuario.findAll({
+    const senha = req.body.senha;
+    const cryptoSenha = crypto.SHA256(senha).toString(crypto.enc.Base64);
+    const usuario = await db.infob_mw_usuario.findOne({
         where: {
-        ds_email: email,
-        ds_senha: senha
+           ds_email: req.body.email,
+           ds_senha: cryptoSenha
         }
     })
-
-    if (!usuario) {
-        resp.send({ status: 'erro', mensagem: 'Credenciais inválidas.'});
-    } else {
-        resp.send({ status: 'ok', nome: usuario.nm_usuario});
-    }
-})
+        if (!usuario) {
+            resp.send({ status: 'erro', mensagem: 'Credenciais inválidas.'});
+        } else {
+            resp.send({ status: 'ok', nome: usuario.nm_usuario});
+        }
+    
+    })
+    
 
 
 app.post('/esqueciSenha', async (req, resp) => {
@@ -41,9 +42,10 @@ app.post('/esqueciSenha', async (req, resp) => {
     enviarEmail(usuario.ds_email, 'Recuperação De Senha', `
     <h3> Recuperação de senha </h3>
     <p> Sua recuperação de senha da sua conta foi atendida 
-    <p> insira esse código ${codigo} para recuperar ir adiante com a recuperação. 
+    <p> insira esse código ${codigo} para recuper sua conta
+    
     `) 
-    resp.send({ status: 'ok'})
+    resp.send({ status: 'Código Enviado'});
 
 })
 
@@ -56,11 +58,13 @@ app.post('/validarcodigo', async (req, resp) => {
      if(!usuario) {
         resp.send({ status: 'erro', mensagem: 'E-mail não existe'});
      }
-     if (usuario.ds_codigo_rec !== req.body.codigo) {
+     if (usuario.ds_codigo_rec !== req.body.code) {
         resp.send({ status: 'erro', mensagem: 'Código inválido.'});
+     } 
+     else{
+     return resp.send({ status: 'ok', mensagem: 'Código validado.'});   
      }
-     resp.send({ status: 'ok', mensagem: 'Código validado.'});   
-})
+}) 
 
 app.put('/resetarsenha', async (req, resp) => {
     const usuario = await db.infob_mw_usuario.findOne ({
@@ -71,13 +75,15 @@ app.put('/resetarsenha', async (req, resp) => {
      if(!usuario) {
         resp.send({ status: 'erro', mensagem: 'E-mail não existe'});
      }
-     if (usuario.ds_codigo_rec !== req.body.codigo) {
+     if (usuario.ds_codigo_rec !== req.body.codigo || 
+        usuario.ds_codigo_rec === '') {
         resp.send({ status: 'erro', mensagem: 'Código inválido.'});
      }
      await db.infob_mw_usuario.update({
-        ds_senha: req.body.novaSenha
+        ds_senha: req.body.novaSenha,
+        ds_codigo_rec: ''
     }, {  
-    where: {id_usuario: usuario.id_usuario}
+    where: { id_usuario: usuario.id_usuario }
     })
     resp.send({ status: 'ok', mensagem: 'Senha Alterada.'});
 })
