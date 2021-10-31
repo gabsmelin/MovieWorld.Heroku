@@ -5,8 +5,8 @@ const sender = nodemailer.createTransport({
   port: 587,
   secure: false,
   auth: {
-    user: 'mailing.tcc.info@acaonsfatima.org.br',
-    pass: 'mailing#tcc',
+    user: 'movieworldcontacts@gmail.com',
+    pass: 'tcc@mw2021',
   },
 });
 

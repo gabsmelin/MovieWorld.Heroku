@@ -106,7 +106,7 @@ app.post('/login', async (req, resp) => {
       resp.send({ status: 'erro', mensagem: 'Código inválido.' });
     }
   
-    await db.insf_tb_usuario.update({
+    await db.infob_mw_usuario.update({
       ds_senha: req.body.novaSenha,
       ds_codigo_rec: ''
     }, {
