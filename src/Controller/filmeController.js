@@ -1,7 +1,7 @@
-import {Router} from 'express'
+import express from 'express'
 import db from "../db.js";
 
-const app = Router();
+const app = express.Router();
 
 app.get('/listar', async(req, resp) => {
     try {

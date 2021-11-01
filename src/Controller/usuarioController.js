@@ -1,7 +1,8 @@
-import {Router} from 'express'
+import express from 'express'
 import db from "../db.js";
+import crypto from 'crypto-js'
 
-const app = Router();
+const app = express.Router();
 
 app.get('/listar', async(req, resp) => {
     try {
@@ -21,7 +22,7 @@ app.post('/cadastrar', async(req, resp) => {
             nm_sobrenome: sobrenome,
             nm_username: username,
             ds_email: email,
-            ds_senha: senha,
+            ds_senha: crypto.SHA256(senha).toString(crypto.enc.Base64),
             ds_genero: genero,
             ds_nascimento: new Date(),
             ds_localizacao: localizacao,
