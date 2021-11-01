@@ -1,11 +1,10 @@
-import {Router} from 'express'
+import express from 'express'
 import db from "../db.js";
-
+import crypto from 'crypto-js'
 import enviarEmail  from "../enviarEmail.js"; 
 
 
-const app = Router();
-
+const app = express.Router();
 app.post('/login', async (req, resp) => {
     const senha = req.body.senha;
     const cryptoSenha =  crypto.SHA256(senha).toString(crypto.enc.Base64);

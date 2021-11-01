@@ -1,9 +1,9 @@
 
 
-import {Router} from 'express'
+import express from 'express'
 import db from "../db.js";
 
-const app = Router();
+const app = express.Router();
 
 import Sequelize from 'sequelize';
 const { Op } = Sequelize;
