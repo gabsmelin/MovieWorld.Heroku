@@ -69,10 +69,10 @@ app.post('/validarcodigo', async (req, resp) => {
      }
      if (usuario.ds_codigo_rec !== req.body.code) {
         resp.send({ status: 'erro', mensagem: 'Código inválido.'});
-     } 
-     else{
-     return resp.send({ status: 'ok', mensagem: 'Código validado.'});   
-     }
+     } else {
+      resp.send({ status: 'ok', mensagem: 'Código validado.'});   
+    }
+     
 }) 
 
 app.put('/resetarsenha', async (req, resp) => {
