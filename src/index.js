@@ -622,7 +622,8 @@ app.delete('/MeusF_Ja', async (req,resp) => {
 
 app.post('/login', async (req, resp) => {
     let { email, senha } = req.body;
-    const usuario = await db.infob_mw_usuario.findOne({
+    const usuario = await db.infob_mw_usuario.findAll
+    ({
         where: {
         ds_email: email,
         ds_senha: senha
