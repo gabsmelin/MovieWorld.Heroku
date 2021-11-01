@@ -76,7 +76,7 @@ app.delete('/deletar/:id', async(req, resp) => {
     try {
         let { id } = req.params;
         let d = db.infob_mw_usuario.destroy({ where: {id_usuario: id}})
-        resp.send("Produto removido!");
+        resp.send("Usuario removido!");
     } catch(e) {
         resp.send({ erro: e.toString()});
     }
