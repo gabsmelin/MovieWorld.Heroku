@@ -7,7 +7,7 @@ import enviarEmail  from "../enviarEmail.js";
 const app = express.Router();
 app.post('/login', async (req, resp) => {
     const senha = req.body.senha;
-    const cryptoSenha = crypto.SHA256(senha).toString(crypto.enc.Base64);
+    const cryptoSenha =  crypto.SHA256(senha).toString(crypto.enc.Base64);
     const usuario = await db.infob_mw_usuario.findOne({
         where: {
            ds_email: req.body.email,
