@@ -1,7 +1,7 @@
 import _sequelize from 'sequelize';
 const { Model, Sequelize } = _sequelize;
 
-export default class infob_mw_comentario extends Model {
+export default class infob_mw_comentarios extends Model {
   static init(sequelize, DataTypes) {
   super.init({
     id_cometario: {
@@ -32,7 +32,7 @@ export default class infob_mw_comentario extends Model {
     }
   }, {
     sequelize,
-    tableName: 'infob_mw_comentario',
+    tableName: 'infob_mw_comentarios',
     timestamps: false,
     indexes: [
       {
@@ -59,6 +59,6 @@ export default class infob_mw_comentario extends Model {
       },
     ]
   });
-  return infob_mw_comentario;
+  return infob_mw_comentarios;
   }
 }
