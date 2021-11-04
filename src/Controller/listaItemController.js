@@ -22,12 +22,10 @@ app.post('/lista_item', async (req, resp) => {
             id_filme: descricao,
             id_lista_item: lista
         })
-         resp.send('lista criada!')  
+         resp.send('filme adicionado!')  
     } catch(e) {
          resp.send({erro: e.toString() })
     }
-
-    
 })
 
 

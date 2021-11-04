@@ -76,5 +76,50 @@ app.get("/ja", async(req, resp) => {
     resp.send(filmes)
 })
 
+/////////////////////////////////////////////////////////////////////////////////////
+
+
+app.get('/AssistirT', async(req, resp) => {
+  try {
+      let x = await db.infob_mw_lista_item.findAll();
+      resp.send(x);
+  } catch(e) {
+      resp.send({ erro: e.toString() })
+  }
+})
+
+
+app.post('/AssistirT', async (req, resp) => {
+  try{
+      let {filme, lista} = req.body;
+          let x = await db.infob_mw_lista_item.create({
+              id_filme: filme,
+              id_lista: lista
+          })
+          resp.send('Filme adicionado!')  
+  } catch(e) {
+       resp.send({erro: e.toString() })
+  }
+})
+
+app.delete('/AssistirT/:id', async(req, resp) => {
+  try {
+      let { id } = req.params;
+
+      let d = await db.infob_mw_lista_item.destroy({ where: {id_lista_item: id }})
+      resp.send('Filme removido!')
+  } catch(e) {
+      resp.send({erro: e.toString()})
+  }
+})
+
+
+
+
+
+
+
+
+
 
 export default app
