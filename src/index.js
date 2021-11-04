@@ -23,5 +23,4 @@ app.use('/usuario', Usuario)
 app.use('/comentario', Comentario)
 app.use('/login', Login)
 
-app.listen(process.env.PORT,
-    x => console.log(`Subiu a api, hehe ${process.env.PORT}`))
+app.listen(process.env.PORT, () => console.log(`Subiu a api, hehe ${process.env.PORT}`))
