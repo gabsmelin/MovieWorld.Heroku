@@ -30,7 +30,8 @@ app.get('/listar', async(req, resp) => {
 
 app.get('/boxFilme', async(req, resp) => {
     try {
-        let a = await db.infob_mw_filmes.findAll({ limit: 9});
+        let a = await db.infob_mw_filmes.findAll({ limit: 9,
+            order: [['nm_filme', 'asc']]});
 
         a = a.map(item => {
             return {
@@ -55,11 +56,11 @@ app.get('/boxFilme', async(req, resp) => {
 
 app.get('/carrousel', async(req, resp) => {
     try {
-        let a = await db.infob_mw_filmes.findAll({ limit: 4});
+        let a = await db.infob_mw_filmes.findAll({ limit: 4,  order: [['nm_filme', 'desc']]});
 
         a = a.map(item => {
             return {
-              img_maior: item.img_capa_maior
+                img_maior: item.img_capa_maior
             }
           })
         resp.send(a);

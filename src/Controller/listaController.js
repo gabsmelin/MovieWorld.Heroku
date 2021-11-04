@@ -1,11 +1,10 @@
 
-
 import express from 'express'
 import db from "../db.js";
 
 const app = express.Router();
 
-app.get('/lista', async(req, resp) => {
+app.get('/listar', async(req, resp) => {
     try {
         let l = await db.infob_mw_lista.findAll({ order: [['id_lista', 'desc']] });
         resp.send(l);
