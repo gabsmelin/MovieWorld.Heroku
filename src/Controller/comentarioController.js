@@ -12,12 +12,6 @@ app.get('/listaru', async(req, resp) => {
     try {
         let coment = await db.infob_mw_comentarios.findAll({
             include: [{
-                model: db.infob_mw_filmes,
-                as: 'infob_mw_filmes',
-                required: true,
-                attributes: ['nm_filme']
-            }],
-            include: [{
                 model: db.infob_mw_usuario,
                 as: 'infob_mw_usuario',
                 required: true

@@ -3,13 +3,13 @@ import db from "../db.js";
 
 const app = express.Router();
 
-app.get('/listar', async(req, resp) => {
+app.get('/:id', async(req, resp) => {
     try {
-        let a = await db.infob_mw_filmes.findAll();
-
+        let a = await db.infob_mw_filmes.findAll({where: { id_filme: req.params.id }});
+        
         a = a.map(item => {
             return {
-              id: item.id_filme,
+              idf: item.id_filme,
               nome: item.nm_filme,
               genero: item.ds_genero,
               lancamento: item.ano_lancamento,
