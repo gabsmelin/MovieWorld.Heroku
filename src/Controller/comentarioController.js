@@ -10,7 +10,12 @@ const { Op } = Sequelize;
 
 app.get('/listaru', async(req, resp) => {
     try {
+        let id = req.params;
+
         let coment = await db.infob_mw_comentarios.findAll({
+            where: {
+                'id_usuario': id
+            },
             include: [{
                 model: db.infob_mw_usuario,
                 as: 'infob_mw_usuario',
