@@ -28,10 +28,9 @@ app.get('/:id', async(req, resp) => {
     }
 })
 
-app.get('/boxFilme', async(req, resp) => {
+app.get('/', async(req, resp) => {
     try {
-        let a = await db.infob_mw_filmes.findAll({ limit: 9,
-            order: [['nm_filme', 'asc']]});
+        let a = await db.infob_mw_filmes.findAll({ });
 
         a = a.map(item => {
             return {
@@ -54,9 +53,34 @@ app.get('/boxFilme', async(req, resp) => {
     }
 })
 
-app.get('/carrousel', async(req, resp) => {
+app.get('/boxfilme', async(req, resp) => {
     try {
-        let a = await db.infob_mw_filmes.findAll({ limit: 4,  order: [['nm_filme', 'desc']]});
+        let a = await db.infob_mw_filmes.findAll({ });
+
+        a = a.map(item => {
+            return {
+              id: item.id_filme,
+              nome: item.nm_filme,
+              genero: item.ds_genero,
+              lancamento: item.ano_lancamento,
+              diretor: item.nm_diretor, 
+              sinopse: item.ds_sinopse,
+              avaliacao: item.ds_avaliacao, 
+              descricao: item.ds_descricao, 
+              plataforma: item.ds_plataforma, 
+              img_maior: item.img_capa_maior, 
+              img_menor: item.img_capa_menor
+            }
+          })
+        resp.send(a);
+    } catch(e) {
+        resp.send({erro: e.toString()})
+    }
+})
+
+app.get('/carousel', async(req, resp) => {
+    try {
+        let a = await db.infob_mw_filmes.findAll({ });
 
         a = a.map(item => {
             return {
