@@ -5,6 +5,7 @@ import enviarEmail  from "../enviarEmail.js";
 
 
 const app = express.Router();
+
 app.post('/login', async (req, resp) => {
     const senha = req.body.senha;
     const cryptoSenha =  crypto.SHA256(senha).toString(crypto.enc.Base64);
