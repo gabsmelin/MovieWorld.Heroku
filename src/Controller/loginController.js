@@ -28,6 +28,8 @@ app.post('/login', async (req, resp) => {
   function getRandomInteger(min, max) {
     return Math.floor(Math.random() * (max - min) ) + min;
   }
+
+
   
   app.post('/esqueci', async (req, resp) => {
     const usuario = await db.infob_mw_usuario.findOne({
@@ -36,10 +38,6 @@ app.post('/login', async (req, resp) => {
       }
     });
   
-    if (!usuario) {
-      resp.send({ status: 'erro', mensagem: 'E-mail inválido.' });
-    }
- 
  if(!usuario) {
     resp.send({ status: 'erro', mensagem: 'E-mail não existe'});
  }
@@ -58,16 +56,20 @@ app.post('/login', async (req, resp) => {
     resp.send({ status: 'Código Enviado'});
 })
 
+
 app.post('/validarcodigo', async (req, resp) => {
     const usuario = await db.infob_mw_usuario.findOne ({
         where : {
             ds_email: req.body.email
         }
      });
+
+     console.log(usuario.ds_codigo_rec)
+
      if(!usuario) {
         resp.send({ status: 'erro', mensagem: 'E-mail não existe'});
      }
-     if (usuario.ds_codigo_rec !== req.body.code) {
+     if (usuario.ds_codigo_rec != req.body.code) {
         resp.send({ status: 'erro', mensagem: 'Código inválido.'});
      } else {
       resp.send({ status: 'ok', mensagem: 'Código validado.'});   
@@ -76,26 +78,26 @@ app.post('/validarcodigo', async (req, resp) => {
 }) 
 
 app.put('/resetarsenha', async (req, resp) => {
-    const usuario = await db.infob_mw_usuario.findOne ({
-        where : {
-            ds_email: req.body.email
-        }
-     });
-     if(!usuario) {
-        resp.send({ status: 'erro', mensagem: 'E-mail não existe'});
-     }
-     if (usuario.ds_codigo_rec !== req.body.codigo || 
-        usuario.ds_codigo_rec === '') {
-        resp.send({ status: 'erro', mensagem: 'Código inválido.'});
-     }
-     await db.infob_mw_usuario.update({
-        ds_senha: req.body.novaSenha,
-        ds_codigo_rec: ''
-    }, {  
-    where: { id_usuario: usuario.id_usuario }
-    })
-  
-    resp.send({ status: 'ok', mensagem: 'Senha alterada.' });
+  const novaSenha = req.body.novaSenha
+  const cryptoSenha2 =  crypto.SHA256(novaSenha).toString(crypto.enc.Base64); 
+  const usuario = await db.infob_mw_usuario.findOne ({
+    where : {
+        ds_email: req.body.email
+    }
+ });
+  if(!usuario) {
+      resp.send({ status: 'erro', mensagem: 'E-mail não existe'});
+  }
+  if (usuario.ds_codigo_rec != req.body.code || usuario.ds_codigo_rec === '') {
+      resp.send({ status: 'erro', mensagem: 'Código inválido.'});
+  }
+  await db.infob_mw_usuario.update({
+      ds_senha: cryptoSenha2,
+      ds_codigo_rec: null
+  }, {  
+  where: { id_usuario: usuario.id_usuario }
+  })
+  resp.send({ status: 'ok', mensagem: 'Senha alterada.' });
   })
 
 
