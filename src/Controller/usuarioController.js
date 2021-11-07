@@ -27,28 +27,28 @@ app.post('/cadastrar', async(req, resp) => {
     try {
         let { nome, sobrenome, username, email, senha, nascimento, genero} = req.body;
         
-        let e = await db.infob_mw_usuario.findOne({where: {ds_email: email}})
-        if(e != null) 
-            resp.send({erro: '❌ Usuário já existe!'})
-
-        {/*if(e == username) 
-        resp.send({erro: '❌ Nome de usuário já existente!'})
-        , nm_username: username*/}
+        let e = await db.infob_mw_usuario.findOne()
 
         if(nome == "" && nome.length < 2 || sobrenome == "" || sobrenome <= 3 || username == "" && username.length < 2 || email == "" && email.length <= 0 || senha == "" && senha.length <= 0 || genero == "" && genero.length <= 0 || nascimento == "" && nascimento.length <= 0) 
             resp.send({erro: '❌ Campos inválidos!'})
 
+        if(email != null) 
+           resp.send({erro: '❌ Usuário já existe!'})
 
-        let i = await db.infob_mw_usuario.create({
-            nm_usuario: nome,
-            nm_sobrenome: sobrenome,
-            nm_username: username,
-            ds_email: email,
-            ds_senha: crypto.SHA256(senha).toString(crypto.enc.Base64),
-            ds_genero: genero,
-            ds_nascimento: nascimento,
-        })
-        resp.send("Usuário inserido!");
+        if(username != null) 
+            resp.send({erro: '❌ Username já existente!'})
+
+            let i = await db.infob_mw_usuario.create({
+                nm_usuario: nome,
+                nm_sobrenome: sobrenome,
+                nm_username: username,
+                ds_email: email,
+                ds_senha: crypto.SHA256(senha).toString(crypto.enc.Base64),
+                ds_genero: genero,
+                ds_nascimento: nascimento,
+            })
+            resp.send("Usuário inserido!");
+
     } catch(e) {
         resp.send({erro: e.toString()})
     }

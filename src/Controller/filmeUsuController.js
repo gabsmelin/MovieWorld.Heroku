@@ -1,12 +1,16 @@
 import express from 'express'
 import db from "../db.js";
+import Sequelize from 'sequelize';
+const { Op, col, fn } = Sequelize;
 
 const app = express.Router();
 
 ////////////////////////////////////////// POR GOSTO //////////////////////////////////////////
   app.get('/filmesgosto', async(req, resp) => {
       try {
-          let a = await db.infob_mw_filmes.findAll();
+          let a = await db.infob_mw_filme_usuario.findAll({
+            limit: 72
+          });
 
           a = a.map(item => {
               return {
@@ -53,7 +57,7 @@ const app = express.Router();
           default: return['nm_filme', 'asc'] 
       }
   }
-  app.get("/ja", async(req, resp) => {
+  app.get('/ja', async(req, resp) => {
       let Ordenar = Ordenação(req.query.ordenacao)
 
       let filmes = await db.infob_mw_filmes.findAll({ order: [ Ordenar ] })
@@ -75,6 +79,48 @@ const app = express.Router();
         })
       resp.send(filmes)
   })
+
+
+  app.get('/ja/filmes', async (req, resp) => {
+    let page = req.query.page || 0;
+    if (page <= 0) page = 1;
+  
+    const itemsPerPage = 24;
+    const skipItems    = (page-1) * itemsPerPage;
+
+    let Ordenar = Ordenação(req.query.ordenacao)
+    
+    const filmes = await db.infob_mw_filmes.findAll({
+      limit: itemsPerPage,
+      offset: skipItems,
+      order: [ Ordenar ],
+      attributes: [
+        ['id_filme', 'id'],
+        ['nm_filme', 'nome'],
+        ['ds_genero', 'genero'],
+        ['ano_lancamento', 'lancamento'],
+        ['nm_diretor', 'diretor'],
+        ['ds_plataforma', 'plataforma'],
+        ['img_capa_menor', 'img_menor']
+      ]
+    });
+
+    const total = await db.infob_mw_filmes.findOne({
+     raw: true, 
+     attributes: [
+       [fn('count', 1), 'qtd']
+      ]
+    });
+
+      resp.send({
+        itens: filmes,
+        total: total.qtd,
+        totalPaginas: Math.ceil(total.qtd/24),
+        pagina: Number(page)
+      })
+    })
+  
+ 
 
 /////////////////////////////////////////////////////////////////////////////////////
 
