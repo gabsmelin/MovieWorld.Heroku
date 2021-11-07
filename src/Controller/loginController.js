@@ -57,25 +57,32 @@ app.post('/login', async (req, resp) => {
 })
 
 
-app.post('/validarcodigo', async (req, resp) => {
-    const usuario = await db.infob_mw_usuario.findOne ({
-        where : {
-            ds_email: req.body.email
-        }
-     });
-
-     console.log(usuario.ds_codigo_rec)
-
-     if(!usuario) {
-        resp.send({ status: 'erro', mensagem: 'E-mail não existe'});
-     }
-     if (usuario.ds_codigo_rec != req.body.code) {
-        resp.send({ status: 'erro', mensagem: 'Código inválido.'});
-     } else {
-      resp.send({ status: 'ok', mensagem: 'Código validado.'});   
+app.post('/validarCodigo', async (req, resp) => {
+    const user = await db.infob_mw_usuario.findOne({
+      where: {
+        ds_email: req.body.email   
+      }
+    });
+  
+    if (!user) {
+      resp.send({ status: 'erro', mensagem: 'E-mail inválido.' });
     }
-     
-}) 
+  
+    if (user.ds_codigo_rec !== req.body.codigo) {
+      resp.send({ status: 'erro', mensagem: 'Código inválido.' });
+    }
+  
+    resp.send({ status: 'ok', mensagem: 'Código validado.' });
+  
+  })
+  
+  
+
+
+
+
+
+
 
 app.put('/resetarsenha', async (req, resp) => {
   const novaSenha = req.body.novaSenha

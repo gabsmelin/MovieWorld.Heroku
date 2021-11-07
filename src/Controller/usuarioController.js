@@ -13,6 +13,16 @@ app.get('/listar', async(req, resp) => {
     }
 })
 
+app.get('/listarMenu/:id', async(req, resp) => {
+    try {
+        let id = req.body.params;
+        let a = await db.infob_mw_usuario.findOne({where: {id_usuario: id}});
+        resp.send(a);
+    } catch(e) {
+        resp.send({erro: e.toString()})
+    }
+})
+
 app.post('/cadastrar', async(req, resp) => {
     try {
         let { nome, sobrenome, username, email, senha, nascimento, genero} = req.body;

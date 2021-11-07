@@ -10,12 +10,7 @@ const { Op } = Sequelize;
 
 app.get('/listaru', async(req, resp) => {
     try {
-        let id = req.params;
-
         let coment = await db.infob_mw_comentarios.findAll({
-            where: {
-                'id_usuario': id
-            },
             include: [{
                 model: db.infob_mw_usuario,
                 as: 'infob_mw_usuario',
@@ -55,8 +50,11 @@ app.get('/listaru', async(req, resp) => {
 
 app.get('/listar', async(req, resp) => {
     try {
-        let c = await db.infob_mw_comentarios.findAll();
-
+        let c = await db.infob_mw_comentarios.findAll({
+            order: [
+                ['ds_curtidas', 'desc']
+            ]
+        });
         c = c.map(item => {
             return {
               id: item.id_cometario,
@@ -115,11 +113,11 @@ app.put('/alterar/:id', async(req, resp) => {
 
 app.delete('/deletar/:id', async(req, resp) => {
     try {
-        let { id } = req.params;
+        let id = req.params;
         let c = db.infob_mw_comentarios.destroy({ where: {id_cometario: id}})
         resp.send("Comentario removido!");
     } catch(e) {
-        resp.send({ erro: e.toString()});
+        resp.send({erro: e.toString()});
     }
 })
 
