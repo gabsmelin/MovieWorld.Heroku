@@ -17,6 +17,7 @@ app.post('/lista', async(req, resp) => {
     try {
         let { lista, descricao } = req.body;
         let consulta = await db.infob_mw_lista.findOne({ where: {nm_lista: lista} })
+        
         if(consulta != null){
             resp.send({erro: 'essa lista já existe'})
         } else 

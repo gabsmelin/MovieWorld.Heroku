@@ -28,8 +28,14 @@ export default function initModels(sequelize) {
   infob_mw_usuario.belongsTo(infob_mw_comentarios, { as: "infob_mw_comentarios", foreignKey: "id_usuario"});
   infob_mw_comentarios.hasMany(infob_mw_usuario, { as: "infob_mw_usuario", foreignKey: "id_usuario"});
 
+
   infob_mw_filmes.belongsTo(infob_mw_filme_usuario, { as: "infob_mw_filme_usuario", foreignKey: "id_filme"});
+  infob_mw_filme_usuario.hasMany(infob_mw_filmes, { as: "infob_mw_filmes", foreignKey: "id_usuario"});
+
   infob_mw_usuario.belongsTo(infob_mw_filme_usuario, { as: "infob_mw_filme_usuario", foreignKey: "id_usuario"});
+  infob_mw_filme_usuario.hasMany(infob_mw_usuario, { as: "infob_mw_usuario", foreignKey: "id_usuario"});
+  
+  
   infob_mw_usuario.belongsTo(infob_mw_lista, { as: "infob_mw_lista", foreignKey: "id_usuario"});
   infob_mw_filmes.belongsTo(infob_mw_lista_item, { as: "infob_mw_lista_item", foreignKey: "id_filme"});
   infob_mw_lista.belongsTo(infob_mw_lista_item, { as: "infob_mw_lista_item", foreignKey: "id_lista"});

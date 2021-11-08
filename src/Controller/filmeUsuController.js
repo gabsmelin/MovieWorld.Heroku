@@ -8,17 +8,7 @@ const app = express.Router();
 ////////////////////////////////////////// POR GOSTO //////////////////////////////////////////
   app.get('/filmesgosto', async(req, resp) => {
       try {
-          let a = await db.infob_mw_filme_usuario.findAll({
-            limit: 72
-          });
-
-          a = a.map(item => {
-              return {
-                id: item.id_filme,
-                nome: item.nm_filme,
-                imagem: item.img_capa_menor
-              }
-            })
+          let a = await db.infob_mw_filmes.findAll();
           resp.send(a);
       } catch(e) {
           resp.send({erro: e.toString()})
@@ -123,6 +113,10 @@ const app = express.Router();
         totalPaginas: Math.ceil(total.qtd/24),
         pagina: Number(page)
       })
+    })
+
+    app.post('/inserir', async(req, resp) => {
+      
     })
   
  
