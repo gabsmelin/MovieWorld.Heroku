@@ -32,11 +32,6 @@ app.post('/cadastrar', async(req, resp) => {
         if(nome == "" && nome.length < 2 || sobrenome == "" || sobrenome <= 3 || username == "" && username.length < 2 || email == "" && email.length <= 0 || senha == "" && senha.length <= 0 || genero == "" && genero.length <= 0 || nascimento == "" && nascimento.length <= 0) 
             resp.send({erro: '❌ Campos inválidos!'})
 
-        if(email != null) 
-           resp.send({erro: '❌ Usuário já existe!'})
-
-        if(username != null) 
-            resp.send({erro: '❌ Username já existente!'})
 
             let i = await db.infob_mw_usuario.create({
                 nm_usuario: nome,
