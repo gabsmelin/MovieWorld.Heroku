@@ -98,12 +98,17 @@ const app = express.Router();
         ['id_filme', 'id'],
         ['nm_filme', 'nome'],
         ['ds_genero', 'genero'],
-        ['ano_lancamento', 'lancamento'],
+        ['ano_lancamento','lancamento' ],
         ['nm_diretor', 'diretor'],
+        ['ds_sinopse', 'sinopse'],
+        ['ds_avaliacao', 'avaliacao'],
+        ['ds_descricao', 'descricao'],
         ['ds_plataforma', 'plataforma'],
+        ['img_capa_maior', 'img_maior'],
         ['img_capa_menor', 'img_menor']
       ]
     });
+
 
     const total = await db.infob_mw_filmes.findOne({
      raw: true, 

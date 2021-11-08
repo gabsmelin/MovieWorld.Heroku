@@ -51,6 +51,7 @@ app.get('/listaru', async(req, resp) => {
 app.get('/listar', async(req, resp) => {
     try {
         let c = await db.infob_mw_comentarios.findAll({
+            limit: 3,
             order: [
                 ['ds_curtidas', 'desc']
             ]
