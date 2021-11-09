@@ -6,7 +6,7 @@ const app = express.Router();
 
 app.get('/listar', async(req, resp) => {
     try {
-        let a = await db.infob_mw_filmes.findAll({});
+        let a = await db.infob_mw_filmes.findAll();
         resp.send(a);
     } catch(e) {
         resp.send({erro: e.toString()})
