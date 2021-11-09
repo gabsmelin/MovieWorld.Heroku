@@ -31,7 +31,7 @@ app.post('/lista', async(req, resp) => {
                 resp.send('lista criada')
             }
     } catch(e) {
-        resp.send({ erro: e.toString() })
+        resp.send({ erro: e.toString()})
     }
 })
 
@@ -40,6 +40,8 @@ app.put('/lista/:id', async(req, resp) => {
         let { lista, descricao } = req.body;
         let { id } = req.params;
         let consulta = await db.infob_mw_lista.findOne({ where: {nm_lista: lista} })
+
+        db.infob
 
         if(consulta != null){
             resp.send({erro: 'essa lista já existe'})
