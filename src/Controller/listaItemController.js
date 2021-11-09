@@ -3,7 +3,7 @@ import db from "../db.js";
 
 const app = express.Router();
 
-{/*app.get('/lista_item', async(req, resp) => {
+app.get('/lista_item', async(req, resp) => {
     try {
         let x = await db.infob_mw_lista_item.findAll();
         resp.send(x);
@@ -38,7 +38,6 @@ app.get('/lista_popular', async(req, resp) => {
         resp.send({ erro: e.toString() })
     }
 })
-*/}
 
 
 export default app

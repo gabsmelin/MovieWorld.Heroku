@@ -11,8 +11,6 @@ import Lista from './Controller/listaController.js';
 import ListaItem from './Controller/listaItemController.js';
 import Login from './Controller/loginController.js';
 
-
-
 const app = express();
 app.use(cors());
 app.use(express.json());
