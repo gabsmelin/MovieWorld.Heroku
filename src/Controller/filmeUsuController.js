@@ -8,12 +8,53 @@ const app = express.Router();
 ////////////////////////////////////////// POR GOSTO //////////////////////////////////////////
   app.get('/filmesgosto', async(req, resp) => {
       try {
-          let a = await db.infob_mw_filmes.findAll();
+        //let { id_filme, id_usuario } = req.body;
+          let a = await db.infob_mw_filme_usuario.findAll({
+            include: [{
+              model: db.infob_mw_usuario,
+              as: 'infob_mw_usuario',
+              required: true
+            }],
+            include: [{
+              model: db.infob_mw_filmes,
+              as: 'infob_mw_filmes',
+              required: true
+            }]
+          });
           resp.send(a);
       } catch(e) {
           resp.send({erro: e.toString()})
       }
   })
+
+  app.post('/filmesgosto', async(req, resp) => {
+    try {
+      let { id_filme, id_usuario } = req.body;
+        let a = await db.infob_mw_filme_usuario.findAll({
+          include: [{
+            model: db.infob_mw_usuario(id_usuario),
+            as: 'infob_mw_usuario',
+            required: true
+          }],
+          include: [{
+            model: db.infob_mw_filmes(id_filme),
+            as: 'infob_mw_filmes',
+            required: true
+          }]
+          });
+
+        let i = await db.infob_mw_filme_usuario.create({
+            id_filme_usuario: id,
+            id_usuario: id_usuario,
+            id_filme: id_filme,
+            nm_categoria: nome
+        })
+
+        resp.send(a);
+    } catch(e) {
+        resp.send({erro: e.toString()})
+    }
+})
 
 
 

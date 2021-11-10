@@ -7,6 +7,7 @@ const app = express.Router();
 app.get('/listar', async(req, resp) => {
     try {
         let a = await db.infob_mw_filmes.findAll();
+        console.log('Console: ' + a);
         resp.send(a);
     } catch(e) {
         resp.send({erro: e.toString()})
