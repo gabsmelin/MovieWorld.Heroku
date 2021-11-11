@@ -202,12 +202,9 @@ const app = express.Router();
         })
 
         app.get('/ja/per', async(req, resp) => {
-          let Ordenar = Ordenação(req.query.ordenacao)
-    
           let filmes = await db.infob_mw_filmes.findAll({ 
-            order: [ Ordenar ],
             limit: 9 
-          })
+          });
     
           filmes = filmes.map(item => {
               return {
