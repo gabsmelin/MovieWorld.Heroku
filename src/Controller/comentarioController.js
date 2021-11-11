@@ -62,9 +62,7 @@ app.get('/listar', async(req, resp) => {
                 required: true
             }],
             limit: 3,
-            order: [
-                ['ds_curtidas', 'desc']
-            ]
+            order: [['ds_curtidas', 'desc']]
         });
         c = c.map(item => {
             return {

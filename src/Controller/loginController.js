@@ -68,11 +68,13 @@ app.post('/validarCodigo', async (req, resp) => {
       }
     });
   
+    
+
     if (!user) {
       resp.send({ status: 'erro', mensagem: 'E-mail inválido.' });
     }
   
-    if (user.ds_codigo_rec !== req.body.codigo) {
+    if (user.ds_codigo_rec !== Number(req.body.codigo)) {
       resp.send({ status: 'erro', mensagem: 'Código inválido.' });
     }
   
@@ -80,11 +82,6 @@ app.post('/validarCodigo', async (req, resp) => {
   
   })
   
-  
-
-
-
-
 
 
 
