@@ -68,7 +68,7 @@ app.post('/validarCodigo', async (req, resp) => {
       }
     });
   
-    // console.log( "Tipo " + typeof(req.body.codigo) )
+    
 
     if (!user) {
       resp.send({ status: 'erro', mensagem: 'E-mail inválido.' });
