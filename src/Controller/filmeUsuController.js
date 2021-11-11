@@ -156,13 +156,6 @@ const app = express.Router();
       })
     })
 
-    app.post('/inserir', async(req, resp) => {
-      
-    })
-  
-
-
-
       app.get('/ja/filmesdif', async (req, resp) => {
         let page = req.query.page || 0;
         if (page <= 0) page = 1;
@@ -207,6 +200,29 @@ const app = express.Router();
             pagina: Number(page)
           })
         })
+
+        app.get('/ja/per', async(req, resp) => {
+          let filmes = await db.infob_mw_filmes.findAll({ 
+            limit: 9 
+          });
+    
+          filmes = filmes.map(item => {
+              return {
+                id: item.id_filme,
+                nome: item.nm_filme,
+                genero: item.ds_genero,
+                lancamento: item.ano_lancamento,
+                diretor: item.nm_diretor, 
+                sinopse: item.ds_sinopse,
+                avaliacao: item.ds_avaliacao, 
+                descricao: item.ds_descricao, 
+                plataforma: item.ds_plataforma, 
+                img_maior: item.img_capa_maior, 
+                img_menor: item.img_capa_menor
+              }
+            })
+          resp.send(filmes)
+      })
 
 
         app.get('/ja/filmesdif2', async (req, resp) => {
