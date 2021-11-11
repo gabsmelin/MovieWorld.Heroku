@@ -17,7 +17,12 @@ app.post('/login', async (req, resp) => {
     })
         if (!usuario) {
             resp.send({ status: 'erro', mensagem: 'Credenciais inválidas.'});
-        } else {
+        } 
+        
+        if(usuario == null) {
+          resp.send({ status: 'erro', mensagem: 'Campos inválidos'});
+        }
+        else {
             resp.send({ status: 'ok', usuario: usuario});
         }
 })

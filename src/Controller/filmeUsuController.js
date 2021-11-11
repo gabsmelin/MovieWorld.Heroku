@@ -8,12 +8,53 @@ const app = express.Router();
 ////////////////////////////////////////// POR GOSTO //////////////////////////////////////////
   app.get('/filmesgosto', async(req, resp) => {
       try {
-          let a = await db.infob_mw_filmes.findAll();
+        //let { id_filme, id_usuario } = req.body;
+          let a = await db.infob_mw_filme_usuario.findAll({
+            include: [{
+              model: db.infob_mw_usuario,
+              as: 'infob_mw_usuario',
+              required: true
+            }],
+            include: [{
+              model: db.infob_mw_filmes,
+              as: 'infob_mw_filmes',
+              required: true
+            }]
+          });
           resp.send(a);
       } catch(e) {
           resp.send({erro: e.toString()})
       }
   })
+
+  app.post('/filmesgostoedsrtst', async(req, resp) => {
+    try {
+      let { id_filme, id_usuario } = req.body;
+        let a = await db.infob_mw_filme_usuario.findAll({
+          include: [{
+            model: db.infob_mw_usuario(id_usuario),
+            as: 'infob_mw_usuario',
+            required: true
+          }],
+          include: [{
+            model: db.infob_mw_filmes(id_filme),
+            as: 'infob_mw_filmes',
+            required: true
+          }]
+          });
+
+        let i = await db.infob_mw_filme_usuario.create({
+            id_filme_usuario: id,
+            id_usuario: id_usuario,
+            id_filme: id_filme,
+            nm_categoria: nome
+        })
+
+        resp.send(a);
+    } catch(e) {
+        resp.send({erro: e.toString()})
+    }
+})
 
 
 
@@ -119,7 +160,99 @@ const app = express.Router();
       
     })
   
- 
+
+
+
+      app.get('/ja/filmesdif', async (req, resp) => {
+        let page = req.query.page || 0;
+        if (page <= 0) page = 1;
+      
+        const itemsPerPage = 12;
+        const skipItems    = (page-1) * itemsPerPage;
+    
+        let Ordenar = Ordenação(req.query.ordenacao)
+        
+        const filmes = await db.infob_mw_filmes.findAll({
+          limit: itemsPerPage,
+          offset: skipItems,
+          order: [ Ordenar ],
+          attributes: [
+            ['id_filme', 'id'],
+            ['nm_filme', 'nome'],
+            ['ds_genero', 'genero'],
+            ['ano_lancamento','lancamento' ],
+            ['nm_diretor', 'diretor'],
+            ['ds_sinopse', 'sinopse'],
+            ['ds_avaliacao', 'avaliacao'],
+            ['ds_descricao', 'descricao'],
+            ['ds_plataforma', 'plataforma'],
+            ['img_capa_maior', 'img_maior'],
+            ['img_capa_menor', 'img_menor']
+          ]
+        });
+    
+    
+        const total = await db.infob_mw_filmes.findOne({
+          raw: true, 
+          attributes: [
+            [fn('count', 1), 'qtd']
+            ],
+          limit: 3
+        });
+    
+          resp.send({
+            itens: filmes,
+            total: total.qtd,
+            totalPaginas: Math.ceil(total.qtd/12),
+            pagina: Number(page)
+          })
+        })
+
+
+        app.get('/ja/filmesdif2', async (req, resp) => {
+          let page = req.query.page || 0;
+          if (page <= 0) page = 1;
+        
+          const itemsPerPage = 18;
+          const skipItems    = (page-1) * itemsPerPage;
+      
+          let Ordenar = Ordenação(req.query.ordenacao)
+          
+          const filmes = await db.infob_mw_filmes.findAll({
+            limit: itemsPerPage,
+            offset: skipItems,
+            order: [ Ordenar ],
+            attributes: [
+              ['id_filme', 'id'],
+              ['nm_filme', 'nome'],
+              ['ds_genero', 'genero'],
+              ['ano_lancamento','lancamento' ],
+              ['nm_diretor', 'diretor'],
+              ['ds_sinopse', 'sinopse'],
+              ['ds_avaliacao', 'avaliacao'],
+              ['ds_descricao', 'descricao'],
+              ['ds_plataforma', 'plataforma'],
+              ['img_capa_maior', 'img_maior'],
+              ['img_capa_menor', 'img_menor']
+            ]
+          });
+      
+      
+          const total = await db.infob_mw_filmes.findOne({
+            raw: true, 
+            attributes: [
+              [fn('count', 1), 'qtd']
+              ],
+            limit: 3
+          });
+      
+            resp.send({
+              itens: filmes,
+              total: total.qtd,
+              totalPaginas: Math.ceil(total.qtd/18),
+              pagina: Number(page)
+            })
+          })
 
 /////////////////////////////////////////////////////////////////////////////////////
 

@@ -5,7 +5,9 @@ const app = express.Router();
 
 app.get('/', async(req, resp) => {
     try {
-        let a = await db.infob_mw_filmes.findAll({limit:9});
+        let a = await db.infob_mw_filmes.findAll({limit:9,
+          order: [['qtd_likes','desc']]
+        });
 
         a = a.map(item => {
             return {

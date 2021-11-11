@@ -20,7 +20,7 @@ export default function initModels(sequelize) {
   //infob_amz_tbreporte_denuncia.belongsTo(infob_amz_tbdenuncia, { as: "id_denuncia_infob_amz_tbdenuncium", foreignKey: "id_denuncia"});
   //infob_amz_tbdenuncia.hasMany(infob_amz_tbreporte_denuncia, { as: "infob_amz_tbreporte_denuncia", foreignKey: "id_denuncia"});
  
-  infob_mw_filmes.belongsTo(infob_mw_atores, { as: "infob_mw_atores", foreignKey: "id_filme"});
+//  infob_mw_filmes.belongsTo(infob_mw_atores, { as: "infob_mw_atores", foreignKey: "id_filme"});
 
   infob_mw_filmes.belongsTo(infob_mw_comentarios, { as: "infob_mw_comentarios", foreignKey: "id_filme"});
   infob_mw_comentarios.hasMany(infob_mw_filmes, { as: "infob_mw_filmes", foreignKey: "id_filme"});
@@ -30,15 +30,15 @@ export default function initModels(sequelize) {
 
 
   infob_mw_filmes.belongsTo(infob_mw_filme_usuario, { as: "infob_mw_filme_usuario", foreignKey: "id_filme"});
-  infob_mw_filme_usuario.hasMany(infob_mw_filmes, { as: "infob_mw_filmes", foreignKey: "id_usuario"});
+  infob_mw_filme_usuario.hasMany(infob_mw_filmes, { as: "infob_mw_filmes", foreignKey: "id_filme"});
 
   infob_mw_usuario.belongsTo(infob_mw_filme_usuario, { as: "infob_mw_filme_usuario", foreignKey: "id_usuario"});
   infob_mw_filme_usuario.hasMany(infob_mw_usuario, { as: "infob_mw_usuario", foreignKey: "id_usuario"});
   
   
-  infob_mw_usuario.belongsTo(infob_mw_lista, { as: "infob_mw_lista", foreignKey: "id_usuario"});
-  infob_mw_filmes.belongsTo(infob_mw_lista_item, { as: "infob_mw_lista_item", foreignKey: "id_filme"});
-  infob_mw_lista.belongsTo(infob_mw_lista_item, { as: "infob_mw_lista_item", foreignKey: "id_lista"});
+//  infob_mw_usuario.belongsTo(infob_mw_lista, { as: "infob_mw_lista", foreignKey: "id_usuario"});
+//  infob_mw_filmes.belongsTo(infob_mw_lista_item, { as: "infob_mw_lista_item", foreignKey: "id_filme"});
+//  infob_mw_lista.belongsTo(infob_mw_lista_item, { as: "infob_mw_lista_item", foreignKey: "id_lista"});
     
   
   return {

@@ -13,19 +13,11 @@ app.get('/listar', async(req, resp) => {
     }
 })
 
-app.get('/listarMenu/:id', async(req, resp) => {
-    try {
-        let id = req.body.params;
-        let a = await db.infob_mw_usuario.findOne({where: {id_usuario: id}});
-        resp.send(a);
-    } catch(e) {
-        resp.send({erro: e.toString()})
-    }
-})
+
 
 app.post('/cadastrar', async(req, resp) => {
     try {
-        let { nome, sobrenome, username, email, senha, nascimento, genero} = req.body;
+        let { nome, sobrenome, username, email, senha, nascimento, genero, localizacao, redes, foto, bio } = req.body;
         
         let e = await db.infob_mw_usuario.findOne()
 
@@ -38,10 +30,14 @@ app.post('/cadastrar', async(req, resp) => {
                 ds_email: email,
                 ds_senha: crypto.SHA256(senha).toString(crypto.enc.Base64),
                 ds_genero: genero,
-                ds_nascimento: nascimento,
+                dt_nascimento: nascimento,
+                ds_localização: localizacao,                                                                                                                                                                                                                                              
+                ds_redes_sociais: redes,
+                ds_foto: foto,
+                ds_bio: bio
             })
             resp.send("Usuário inserido!");
-
+        }
     } catch(e) {
         resp.send({erro: e.toString()})
     }

@@ -7,6 +7,7 @@ const app = express.Router();
 app.get('/listar', async(req, resp) => {
     try {
         let a = await db.infob_mw_filmes.findAll();
+        console.log('Console: ' + a);
         resp.send(a);
     } catch(e) {
         resp.send({erro: e.toString()})
@@ -55,7 +56,7 @@ app.post('/inserir', async(req, resp) => {
                 ds_descricao: descricao,
                 ds_plataforma: plataforma,
                 img_capa_maior: img_maior,
-                img_capa_menor: img_menor
+                img_capa_menor: img_menor,
             })
             resp.send("Filme inserido!");
         }

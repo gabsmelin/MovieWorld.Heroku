@@ -52,6 +52,27 @@ app.get('/listar', async(req, resp) => {
     try {
         let c = await db.infob_mw_comentarios.findAll({
             limit: 3,
+            order: [['ds_curtidas', 'desc']]
+        });
+        c = c.map(item => {
+            return {
+              id: item.id_cometario,
+              id_filme: item.id_filme,
+              id_usuario: item.id_usuario,
+              mensagem: item.ds_mensagem,
+              data: item.dt_comentario,
+              curtidas: item.ds_curtidas
+            }
+          })
+        resp.send(c);
+    } catch(e) {
+        resp.send({ erro: e.toString() })
+    }
+})
+
+app.get('/listarg', async(req, resp) => {
+    try {
+        let c = await db.infob_mw_comentarios.findAll({
             order: [
                 ['ds_curtidas', 'desc']
             ]
@@ -71,6 +92,7 @@ app.get('/listar', async(req, resp) => {
         resp.send({ erro: e.toString() })
     }
 })
+
 
 
 app.post('/inserir', async(req, resp) => {
