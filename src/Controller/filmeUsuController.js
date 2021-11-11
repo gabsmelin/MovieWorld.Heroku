@@ -203,7 +203,7 @@ const app = express.Router();
 
         app.get('/ja/per', async(req, resp) => {
           let filmes = await db.infob_mw_filmes.findAll({ 
-            limit: 9 
+            limit: 8
           });
     
           filmes = filmes.map(item => {
