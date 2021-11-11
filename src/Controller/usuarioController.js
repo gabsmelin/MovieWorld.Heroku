@@ -38,9 +38,10 @@ app.post('/cadastrar', async(req, resp) => {
             })
             resp.send("Usuário inserido!");
         }
-    } catch(e) {
+     catch(e) {
         resp.send({erro: e.toString()})
     }
+
 })
 
 
