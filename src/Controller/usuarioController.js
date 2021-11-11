@@ -19,12 +19,14 @@ app.post('/cadastrar', async(req, resp) => {
     try {
         let { nome, sobrenome, username, email, senha, nascimento, genero, localizacao, redes, foto, bio } = req.body;
         
-        let e = await db.infob_mw_usuario.findOne()
+        let u = await db.infob_mw_usuario.findOne({ where: { ds_email: email } })
 
-        if(nome == "" && nome.length < 2 || sobrenome == "" || sobrenome <= 3 || username == "" && username.length < 2 || email == "" && email.length <= 0 || senha == "" && senha.length <= 0 || genero == "" && genero.length <= 0 || nascimento == "" && nascimento.length <= 0) 
+
+        if(nome == " " && nome.length < 2 || sobrenome == " " || sobrenome <= 3 || username == " " && username.length < 2 || email == " " && email.length <= 0 || senha == " " && senha.length <= 0 || genero == " " && genero.length <= 0 || nascimento == " " && nascimento.length <= 0) 
             resp.send({erro: '❌ Campos inválidos!'})
-
-
+        else if (u != null) {
+            return resp.send({ erro: '❌ Usuário já existe!' });
+        } else {
             let i = await db.infob_mw_usuario.create({
                 nm_usuario: nome,
                 nm_sobrenome: sobrenome,
@@ -39,7 +41,7 @@ app.post('/cadastrar', async(req, resp) => {
                 ds_bio: bio
             })
             resp.send("Usuário inserido!");
-
+        }
     } catch(e) {
         resp.send({erro: e.toString()})
     }
