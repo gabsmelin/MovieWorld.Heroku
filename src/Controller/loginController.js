@@ -15,6 +15,7 @@ app.post('/login', async (req, resp) => {
            ds_senha: cryptoSenha
         }
     })
+
         if (!usuario) {
             resp.send({ status: 'erro', mensagem: 'Credenciais inválidas.'});
         } 

@@ -30,18 +30,7 @@ const app = express.Router();
   app.post('/filmesgostoedsrtst', async(req, resp) => {
     try {
       let { id_filme, id_usuario } = req.body;
-        let a = await db.infob_mw_filme_usuario.findAll({
-          include: [{
-            model: db.infob_mw_usuario(id_usuario),
-            as: 'infob_mw_usuario',
-            required: true
-          }],
-          include: [{
-            model: db.infob_mw_filmes(id_filme),
-            as: 'infob_mw_filmes',
-            required: true
-          }]
-          });
+        let a = await db.infob_mw_filme_usuario.findAll({});
 
         let i = await db.infob_mw_filme_usuario.create({
             id_filme_usuario: id,
@@ -88,6 +77,7 @@ const app = express.Router();
           default: return['nm_filme', 'asc'] 
       }
   }
+  
   app.get('/ja', async(req, resp) => {
       let Ordenar = Ordenação(req.query.ordenacao)
 
@@ -306,6 +296,9 @@ app.delete('/AssistirT/:id', async(req, resp) => {
       resp.send({erro: e.toString()})
   }
 })
+
+
+
 
 
 

@@ -8,7 +8,7 @@ const app = express.Router();
 import Sequelize from 'sequelize';
 const { Op } = Sequelize;
 
-app.get('/listaru', async(req, resp) => {
+app.get('/listarG', async(req, resp) => {
     try {
         let coment = await db.infob_mw_comentarios.findAll({
             include: [{
@@ -48,7 +48,7 @@ app.get('/listaru', async(req, resp) => {
 
 
 
-app.get('/listar', async(req, resp) => {
+app.get('/listarP', async(req, resp) => {
     try {
         let c = await db.infob_mw_comentarios.findAll({
             include: [{
