@@ -52,9 +52,7 @@ app.get('/listar', async(req, resp) => {
     try {
         let c = await db.infob_mw_comentarios.findAll({
             limit: 3,
-            order: [
-                ['ds_curtidas', 'desc']
-            ]
+            order: [['ds_curtidas', 'desc']]
         });
         c = c.map(item => {
             return {

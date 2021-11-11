@@ -56,7 +56,7 @@ app.post('/inserir', async(req, resp) => {
                 ds_descricao: descricao,
                 ds_plataforma: plataforma,
                 img_capa_maior: img_maior,
-                img_capa_menor: img_menor
+                img_capa_menor: img_menor,
             })
             resp.send("Filme inserido!");
         }
