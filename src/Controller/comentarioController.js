@@ -51,6 +51,16 @@ app.get('/listaru', async(req, resp) => {
 app.get('/listar', async(req, resp) => {
     try {
         let c = await db.infob_mw_comentarios.findAll({
+            include: [{
+                model: db.infob_mw_usuario,
+                as: 'infob_mw_usuario',
+                required: true
+            }],
+            include: [{
+                model: db.infob_mw_filmes,
+                as: 'infob_mw_filmes',
+                required: true
+            }],
             limit: 3,
             order: [
                 ['ds_curtidas', 'desc']
